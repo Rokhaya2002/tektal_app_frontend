@@ -1,0 +1,13 @@
+<div class="lines-container">
+  <h2>Lignes disponibles</h2>
+
+  <ul *ngIf="lines.length > 0">
+    <li *ngFor="let line of lines">
+      🚍 <strong>{{ line.name }}</strong> :
+      {{ line.departure }} → {{ line.destination }}
+      <a [routerLink]="['/line', line.id]">Détails</a>
+    </li>
+  </ul>
+
+  <p *ngIf="lines.length === 0">Aucune ligne trouvée.</p>
+</div>

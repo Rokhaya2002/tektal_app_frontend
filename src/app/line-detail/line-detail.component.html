@@ -1,0 +1,11 @@
+<div *ngIf="line">
+  <h1>{{ line.name }}</h1>
+  <p><strong>Trajet :</strong> {{ line.departure }} → {{ line.destination }}</p>
+
+  <h3>Arrêts :</h3>
+  <ul>
+    <li *ngFor="let stop of line.stops">
+      {{ stop.stop_order }}. {{ stop.name }}
+    </li>
+  </ul>
+</div>

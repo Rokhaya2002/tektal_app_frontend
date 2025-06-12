@@ -1,0 +1,46 @@
+.line-detail-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.line-detail-container h1 {
+  font-size: 32px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.trajet {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.line-detail-container h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.stops-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.stops-list li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+}
+
+.order {
+  font-weight: bold;
+  color: #28a745;
+  margin-right: 8px;
+}
