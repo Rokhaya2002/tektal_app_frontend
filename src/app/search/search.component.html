@@ -1,30 +1,32 @@
 <div class="search-container">
-  <h1>Recherche d'itinéraire</h1>
-
   <div class="logo-container">
-  <img src="assets/logo.png" alt="TekTall Logo" />
-</div>
+    <img src="assets/logo.png" alt="TekTall Logo" />
+  </div>
 
+  <h1>🧭 Recherche d'itinéraire</h1>
 
-  <form (ngSubmit)="onSearch()">
-    <input type="text" placeholder="Départ" [(ngModel)]="from" name="from" required />
-    <input type="text" placeholder="Destination" [(ngModel)]="to" name="to" required />
-    <button type="submit">Rechercher</button>
+  <form (ngSubmit)="onSearch()" class="form-container">
+    <div class="input-group">
+      <span>📍</span>
+      <input type="text" placeholder="Départ" [(ngModel)]="from" name="from" required />
+    </div>
+    <div class="input-group">
+      <span>🏁</span>
+      <input type="text" placeholder="Destination" [(ngModel)]="to" name="to" required />
+    </div>
+    <button type="submit">🔍 Rechercher</button>
   </form>
 
   <div *ngIf="results.length > 0" class="results">
-    <h2>Résultats :</h2>
-    <ul>
-      <li *ngFor="let line of results">
-  <a [routerLink]="['/line', line.id]">
-    🚍 {{ line.name }} : {{ line.departure }} → {{ line.destination }}
-  </a>
-</li>
-
-    </ul>
+    <h2>🛣️ Trajets trouvés</h2>
+    <div class="line-card" *ngFor="let line of results">
+      <h3>🚍 {{ line.name }}</h3>
+      <p><strong>Trajet :</strong> {{ line.departure }} → {{ line.destination }}</p>
+      <a [routerLink]="['/line', line.id]" class="details-btn">Voir les détails</a>
+    </div>
   </div>
 
   <div *ngIf="noResult" class="no-result">
-    <p>Aucun trajet trouvé 😕</p>
+    <p>😕 Aucun trajet trouvé</p>
   </div>
 </div>

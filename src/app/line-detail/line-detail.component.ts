@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -10,7 +10,15 @@ import { HttpClient } from '@angular/common/http';
 export class LineDetailComponent implements OnInit {
   line: any = null;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router  
+  ) {}
+
+  goBack() {
+    this.router.navigate(['/search']);
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

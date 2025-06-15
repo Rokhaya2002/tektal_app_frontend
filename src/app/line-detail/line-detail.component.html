@@ -1,11 +1,15 @@
-<div *ngIf="line">
-  <h1>{{ line.name }}</h1>
-  <p><strong>Trajet :</strong> {{ line.departure }} → {{ line.destination }}</p>
+<div class="back-wrapper">
+  <button class="back-btn" (click)="goBack()">← Retour</button>
+</div>
 
-  <h3>Arrêts :</h3>
-  <ul>
+<div *ngIf="line" class="line-detail-container">
+  <h1>{{ line.name }}</h1>
+  <p class="trajet"><strong>Trajet :</strong> {{ line.departure }} <span>→</span> {{ line.destination }}</p>
+
+  <h2>Arrêts</h2>
+  <ul class="stops-list">
     <li *ngFor="let stop of line.stops">
-      {{ stop.stop_order }}. {{ stop.name }}
+      <span class="order">{{ stop.stop_order }}</span> {{ stop.name }}
     </li>
   </ul>
 </div>

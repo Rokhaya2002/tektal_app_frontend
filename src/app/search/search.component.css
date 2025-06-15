@@ -1,65 +1,213 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f7fc;
+}
+
 .search-container {
   max-width: 500px;
-  margin: 80px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  margin: 60px auto;
+  padding: 30px 25px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   text-align: center;
-  font-family: 'Segoe UI', sans-serif;
 }
 
 .logo-container {
+  display: inline-block;
   margin-bottom: 20px;
 }
 
 .logo-container img {
-  height: 80px;
-  object-fit: contain;
+  height: 120px;
+  max-width: 100%;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.1)) saturate(150%) hue-rotate(90deg) brightness(1.2);
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.search-container h1 {
+.logo-container img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.1)) saturate(180%) hue-rotate(90deg) brightness(1.3);
+}
+
+h1 {
   font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 25px;
+  color: #34495e;
 }
 
-form input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #eef2f7;
+  border-radius: 12px;
+  padding: 10px 15px;
+}
+
+.input-group span {
+  font-size: 20px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.input-group input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
   font-size: 16px;
-  box-sizing: border-box;
+  min-width: 0;
 }
 
 form button {
-  padding: 12px 25px;
-  background-color:#FF8C00;
-  border: none;
+  background-color: #ff8c00;
   color: white;
+  border: none;
+  padding: 14px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 form button:hover {
-  background-color: #FFA500;
+  background-color: #e07b00;
 }
 
 .results {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: left;
 }
 
-.results ul {
-  list-style-type: none;
-  padding: 0;
+.results h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
 }
 
-.results li {
-  padding: 10px;
-  border-bottom: 1px solid
+.line-card {
+  background: #ffffff;
+  border-left: 6px solid #007bff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+  word-wrap: break-word;
+}
+
+.line-card:hover {
+  transform: scale(1.01);
+}
+
+.line-card h3 {
+  margin: 0;
+  color: #007bff;
+  font-size: 18px;
+}
+
+.line-card p {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+.details-btn {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  font-size: 15px;
+}
+
+.details-btn:hover {
+  background-color: #1e7e34;
+}
+
+.no-result {
+  margin-top: 40px;
+  color: #d9534f;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #fdecea;
+  border: 1.5px solid #d9534f;
+  padding: 15px 25px;
+  border-radius: 12px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px rgba(217, 83, 79, 0.2);
+  text-align: center;
+  user-select: none;
+  transition: background-color 0.3s ease;
+  word-wrap: break-word;
+}
+
+.no-result:hover {
+  background-color: #f9d6d5;
+}
+
+@media (max-width: 600px) {
+  .search-container {
+    margin: 30px 10px;
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .input-group input {
+    font-size: 14px;
+  }
+
+  .input-group span {
+    font-size: 18px;
+    margin-right: 8px;
+  }
+
+  form button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .line-card {
+    padding: 15px;
+  }
+
+  .line-card h3 {
+    font-size: 16px;
+  }
+
+  .line-card p {
+    font-size: 14px;
+  }
+
+  .details-btn {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .no-result {
+    font-size: 16px;
+    padding: 12px 15px;
+    max-width: 100%;
+    margin-top: 30px;
+  }
 }
