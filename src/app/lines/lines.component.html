@@ -1,8 +1,22 @@
 <div class="lines-container">
+
+  <div class="back-button">
+    <button routerLink="/" class="btn-back">← Retour à l'accueil</button>
+  </div>
+  
   <h2>Lignes disponibles</h2>
 
-  <ul *ngIf="lines.length > 0" class="line-list">
-    <li *ngFor="let line of lines" class="line-item">
+
+  <div class="filter-buttons">
+    <button (click)="setFilter('TATA')" [class.active]="lineType === 'TATA'">TATA</button>
+    <button (click)="setFilter('DDD')" [class.active]="lineType === 'DDD'">Dakar Dem Dikk</button>
+
+  </div>
+
+ 
+
+  <ul *ngIf="filteredLines().length > 0" class="line-list">
+    <li *ngFor="let line of filteredLines()" class="line-item">
       <div class="line-icon">🚍</div>
       <div class="line-info">
         <strong>{{ line.name }}</strong><br />
@@ -12,5 +26,5 @@
     </li>
   </ul>
 
-  <p *ngIf="lines.length === 0" class="no-line">Aucune ligne trouvée.</p>
+  <p *ngIf="filteredLines().length === 0" class="no-line">Aucune ligne trouvée.</p>
 </div>

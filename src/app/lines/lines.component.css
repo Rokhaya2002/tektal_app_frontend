@@ -1,20 +1,62 @@
 .lines-container {
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 700px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
+  padding: 30px 25px;
+  background: #f9fcf9; /* très léger vert clair */
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(40, 167, 69, 0.12); /* ombre douce verte */
+  max-width: 720px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c3e50;
+  user-select: none;
 }
 
 .lines-container h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  font-size: 30px;
+  color: #1b4332;
   text-align: center;
+  margin-bottom: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.07);
 }
 
+/* Boutons filtre */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-buttons button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 35px;
+  background-color: #d6efd2; /* vert très clair */
+  font-size: 16px;
+  font-weight: 700;
+  color: #237a27;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(35, 122, 39, 0.15);
+  transition: background-color 0.35s ease, color 0.35s ease, transform 0.2s ease;
+}
+
+.filter-buttons button:hover {
+  background-color: #2f9e44;
+  color: #fff;
+  transform: scale(1.07);
+  box-shadow: 0 6px 18px rgba(47, 158, 68, 0.45);
+}
+
+.filter-buttons button.active {
+  background-color: #2f9e44;
+  color: #fff;
+  box-shadow: 0 7px 22px rgba(47, 158, 68, 0.6);
+  transform: scale(1.1);
+}
+
+/* Liste des lignes */
 .line-list {
   list-style: none;
   padding: 0;
@@ -25,53 +67,107 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  transition: background-color 0.3s ease;
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(40, 167, 69, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
   flex-wrap: wrap;
 }
 
 .line-item:hover {
-  background-color: #f1f3f5;
+  box-shadow: 0 10px 28px rgba(40, 167, 69, 0.25);
+  transform: translateY(-4px);
 }
 
 .line-icon {
-  font-size: 24px;
-  margin-right: 12px;
+  font-size: 28px;
+  margin-right: 18px;
+  color: #28a745;
+  flex-shrink: 0;
 }
 
 .line-info {
   flex: 1;
-  color: #212529;
-  min-width: 200px;
+  min-width: 220px;
+  color: #1b4332;
+}
+
+.line-info strong {
+  font-size: 20px;
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 6px;
 }
 
 .line-route {
-  color: #6c757d;
-  font-size: 14px;
+  color: #4a6354;
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
+/* Lien détails */
 .line-details-link {
-  color: #007bff;
+  color: #237a27;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
   margin-left: auto;
+  padding: 8px 14px;
+  border-radius: 30px;
+  border: 2px solid #237a27;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .line-details-link:hover {
-  text-decoration: underline;
+  background-color: #237a27;
+  color: white;
+  box-shadow: 0 6px 14px rgba(35, 122, 39, 0.5);
+  transform: translateY(-2px);
 }
 
+/* Texte "Aucune ligne" */
 .no-line {
   text-align: center;
-  color: #888;
+  color: #7a7a7a;
   font-style: italic;
+  font-size: 17px;
+  margin-top: 25px;
+  font-weight: 600;
 }
 
+/* Bouton retour */
+.back-button {
+  text-align: left;
+  margin-bottom: 30px;
+}
 
+.btn-back {
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 2px solid #28a745;
+  background-color: #e7f5e9;
+  color: #28a745;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(40, 167, 69, 0.15);
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.btn-back:hover {
+  background-color: #28a745;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(40, 167, 69, 0.4);
+  transform: translateY(-3px);
+}
+
+/* 📱 Responsive */
 @media (max-width: 600px) {
   .line-item {
     flex-direction: column;
@@ -79,7 +175,7 @@
   }
 
   .line-details-link {
-    margin-top: 8px;
+    margin-top: 10px;
     margin-left: 0;
   }
 
@@ -88,6 +184,16 @@
   }
 
   .line-route {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .back-button {
+    margin-bottom: 20px;
+  }
+
+  .btn-back {
+    padding: 10px 18px;
+    font-size: 15px;
+    border-radius: 25px;
   }
 }
