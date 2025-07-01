@@ -1,14 +1,19 @@
 <div class="back-wrapper">
+  <!-- Bouton permettant de revenir à la page précédente -->
   <button class="back-btn" (click)="goBack()">← Retour</button>
 </div>
 
 <div *ngIf="line" class="line-detail-container">
+  <!-- Nom de la ligne de bus -->
   <h1>{{ line.name }}</h1>
+  <!-- Affichage du trajet : départ → destination -->
   <p class="trajet"><strong>Trajet :</strong> {{ line.departure }} <span>→</span> {{ line.destination }}</p>
 
   <h2>Arrêts</h2>
+  <!-- Liste des arrêts de la ligne -->
   <ul class="stops-list">
     <li *ngFor="let stop of line.stops">
+      <!-- Affiche l’ordre et le nom de l’arrêt -->
       <span class="order">{{ stop.stop_order }}</span> {{ stop.name }}
     </li>
   </ul>
