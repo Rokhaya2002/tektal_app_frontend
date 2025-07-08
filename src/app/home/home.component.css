@@ -1,3 +1,4 @@
+/* Applique une hauteur pleine page, enlève les marges par défaut et cache le défilement */
 html, body {
   height: 100%;
   margin: 0;
@@ -5,6 +6,7 @@ html, body {
   overflow: hidden;
 }
 
+/* Conteneur principal centré, avec animation de fondu */
 .home-container {
   position: fixed;
   top: 0; left: 0;
@@ -16,10 +18,10 @@ html, body {
   z-index: 1;
   padding: 20px;
   box-sizing: border-box;
- 
   animation: fadeIn 1.2s ease-in;
 }
 
+/* Fond flou avec une image couvrant tout l'écran */
 .home-container::before {
   content: "";
   position: absolute;
@@ -28,15 +30,17 @@ html, body {
   height: 100%;
   background: url('/assets/kya.png') no-repeat center center;
   background-size: cover;
-   filter: blur(5px);
+  filter: blur(5px); /* flou sur le fond */
   z-index: -1;
 }
 
+/* Animation d'apparition progressive */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
+/* Barre en haut à gauche avec animation de glissement vers le bas */
 .top-bar {
   position: absolute;
   top: 20px;
@@ -46,16 +50,19 @@ html, body {
   animation: slideDown 1s ease forwards;
 }
 
+/* Animation du haut vers le bas */
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Logo du site */
 .logo-img {
   height: 90px;
   margin-right: 10px;
 }
 
+/* Nom du site avec effet de survol */
 .site-name {
   font-size: 20px;
   color: #28a745;
@@ -68,6 +75,7 @@ html, body {
   color: #ffffff;
 }
 
+/* Contenu principal centré avec texte blanc et ombre */
 .main-content {
   text-align: center;
   color: #ffffff;
@@ -77,11 +85,13 @@ html, body {
   animation: slideUp 1s ease forwards;
 }
 
+/* Animation du bas vers le haut */
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Titre principal avec transition douce */
 .headline {
   font-size: 32px;
   font-weight: 700;
@@ -89,6 +99,7 @@ html, body {
   transition: all 0.4s ease;
 }
 
+/* Sous-titre avec style plus léger */
 .subheadline {
   font-size: 18px;
   font-weight: 400;
@@ -96,6 +107,7 @@ html, body {
   transition: all 0.4s ease;
 }
 
+/* Conteneur pour les boutons, en colonne et centré */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -105,6 +117,7 @@ html, body {
   animation: fadeIn 2s ease-in;
 }
 
+/* Style de base des boutons */
 button {
   width: 100%;
   padding: 16px 0;
@@ -118,6 +131,7 @@ button {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* Bouton vert */
 .btn-green {
   background-color: #28a745;
   color: #fff;
@@ -128,6 +142,7 @@ button {
   transform: translateY(-2px) scale(1.03);
 }
 
+/* Bouton blanc avec bord sombre */
 .btn-white {
   background-color: #fff;
   color: #2c3e50;
@@ -140,6 +155,7 @@ button {
   transform: translateY(-2px) scale(1.03);
 }
 
+/* Responsive : petit écran (mobile) */
 @media (max-width: 500px) {
   .headline {
     font-size: 24px;
@@ -151,5 +167,3 @@ button {
     font-size: 22px;
   }
 }
-
-
