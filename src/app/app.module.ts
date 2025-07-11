@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';  
-
+import { HttpClientModule } from '@angular/common/http';  
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -13,10 +12,6 @@ import { LinesComponent } from './lines/lines.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,18 +20,18 @@ import { RegisterComponent } from './register/register.component';
     HomeComponent,
     LinesComponent,
     LoginComponent,
-   
     RegisterComponent,
-     
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule, 
-    HttpClientModule,
-    AppRoutingModule     
+    FormsModule,          
+    ReactiveFormsModule,  
+    HttpClientModule,     
+    AppRoutingModule,     
   ],
+  providers: [
   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

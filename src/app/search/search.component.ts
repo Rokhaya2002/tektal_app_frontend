@@ -38,6 +38,7 @@ export class SearchComponent {
       else this.suggestionsTo = [];
       return;
     }
+
     const url = `http://127.0.0.1:8000/api/stops/search?query=${query}`;
     this.http.get<string[]>(url).subscribe({
       next: (data) => {
@@ -49,5 +50,15 @@ export class SearchComponent {
         else this.suggestionsTo = [];
       }
     });
+  }
+
+  selectSuggestion(suggestion: string, field: 'from' | 'to') {
+    if (field === 'from') {
+      this.from = suggestion;
+      this.suggestionsFrom = [];
+    } else {
+      this.to = suggestion;
+      this.suggestionsTo = [];
+    }
   }
 }
