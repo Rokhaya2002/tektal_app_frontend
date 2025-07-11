@@ -9,15 +9,49 @@
 
   <h1><i class="fas fa-map-signs"></i> Recherche d'itinéraire</h1>
 
-  <form (ngSubmit)="onSearch()" class="form-container">
-    <div class="input-group">
+  <form (ngSubmit)="onSearch()" class="form-container" autocomplete="off">
+    <div class="input-group" style="position: relative;">
       <span><i class="fas fa-location-dot"></i></span>
-      <input type="text" placeholder="Départ" [(ngModel)]="from" name="from" required />
+      <input
+        type="text"
+        placeholder="Départ"
+        [(ngModel)]="from"
+        name="from"
+        required
+        (input)="getSuggestions(from, 'from')"
+        autocomplete="off"
+      />
+      <ul *ngIf="suggestionsFrom.length > 0" class="suggestions-list">
+        <li
+          *ngFor="let item of suggestionsFrom"
+          (click)="from = item; suggestionsFrom = []"
+        >
+          {{ item }}
+        </li>
+      </ul>
     </div>
-    <div class="input-group">
+
+    <div class="input-group" style="position: relative;">
       <span><i class="fas fa-flag-checkered"></i></span>
-      <input type="text" placeholder="Destination" [(ngModel)]="to" name="to" required />
+      <input
+        type="text"
+        placeholder="Destination"
+        [(ngModel)]="to"
+        name="to"
+        required
+        (input)="getSuggestions(to, 'to')"
+        autocomplete="off"
+      />
+      <ul *ngIf="suggestionsTo.length > 0" class="suggestions-list">
+        <li
+          *ngFor="let item of suggestionsTo"
+          (click)="to = item; suggestionsTo = []"
+        >
+          {{ item }}
+        </li>
+      </ul>
     </div>
+
     <button type="submit"><i class="fas fa-search"></i> Rechercher</button>
   </form>
 

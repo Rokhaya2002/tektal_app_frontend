@@ -1,0 +1,19 @@
+<div class="login-container">
+  <h2>Connexion</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="input-group">
+      <input formControlName="email" type="email" placeholder="Email" required />
+    </div>
+
+    <div class="input-group">
+      <input formControlName="password" type="password" placeholder="Mot de passe" required />
+    </div>
+
+    <button type="submit" class="btn-submit">Se connecter</button>
+  </form>
+</div>

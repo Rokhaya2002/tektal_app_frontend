@@ -8,7 +8,6 @@ body {
   background: #f4f7fc;
 }
 
-/* ✅ Bouton retour mis à jour */
 .back-wrapper {
   margin: 20px;
   text-align: left;
@@ -35,7 +34,7 @@ body {
   transform: translateY(-3px);
 }
 
-/* 🔍 Conteneur de recherche */
+
 .search-container {
   max-width: 500px;
   width: 90%;
@@ -47,7 +46,7 @@ body {
   text-align: center;
 }
 
-/* Logo */
+
 .logo-container {
   display: inline-block;
   margin-bottom: 20px;
@@ -71,7 +70,7 @@ h1 {
   color: #34495e;
 }
 
-/* Champs de formulaire */
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -79,11 +78,13 @@ h1 {
 }
 
 .input-group {
+  position: relative; 
   display: flex;
   align-items: center;
   background: #eef2f7;
   border-radius: 12px;
   padding: 10px 15px;
+  margin-bottom: 8px;
 }
 
 .input-group span {
@@ -99,6 +100,47 @@ h1 {
   flex: 1;
   font-size: 16px;
   min-width: 0;
+  padding: 8px 0;
+}
+
+
+.suggestions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  max-height: 180px;
+  overflow-y: auto;
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: opacity 0.2s ease;
+}
+
+.suggestions-list li {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+.suggestions-list li:hover,
+.suggestions-list li:focus {
+  background-color: #f0f8ff;
+  color: #007bff;
+  outline: none;
 }
 
 /* Bouton de recherche */
@@ -117,7 +159,7 @@ form button:hover {
   background-color: #e07b00;
 }
 
-/* Résultats */
+
 .results {
   margin-top: 40px;
   text-align: left;
@@ -171,7 +213,7 @@ form button:hover {
   background-color: #1e7e34;
 }
 
-/* Aucun résultat */
+
 .no-result {
   margin-top: 40px;
   color: #d9534f;
@@ -195,7 +237,7 @@ form button:hover {
   background-color: #f9d6d5;
 }
 
-/* 📱 Responsive */
+
 @media (max-width: 600px) {
   .search-container {
     margin: 30px 10px;
