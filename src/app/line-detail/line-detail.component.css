@@ -8,7 +8,7 @@
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #1a1a1a;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease; 
 }
 
 .line-detail-container:hover {
