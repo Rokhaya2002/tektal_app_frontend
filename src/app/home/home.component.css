@@ -16,7 +16,6 @@ html, body {
   z-index: 1;
   padding: 20px;
   box-sizing: border-box;
- 
   animation: fadeIn 1.2s ease-in;
 }
 
@@ -28,7 +27,7 @@ html, body {
   height: 100%;
   background: url('/assets/bacground.png') no-repeat center center;
   background-size: cover;
-   filter: blur(5px);
+  filter: blur(5px);
   z-index: -1;
 }
 
@@ -140,6 +139,26 @@ button {
   transform: translateY(-2px) scale(1.03);
 }
 
+.btn-avis {
+  background-color: #0056b3; /* bleu vif utilisé dans tout ton site */
+  color: #fff;
+  border: none;
+  border-radius: 35px;
+  padding: 16px 0;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-avis:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Responsive : petit écran (mobile) */
 @media (max-width: 500px) {
   .headline {
     font-size: 24px;
@@ -151,5 +170,3 @@ button {
     font-size: 22px;
   }
 }
-
-

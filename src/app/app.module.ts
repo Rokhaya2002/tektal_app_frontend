@@ -13,6 +13,7 @@ import { SearchComponent } from './search/search.component';
 import { LineDetailComponent } from './line-detail/line-detail.component';
 import { HomeComponent } from './home/home.component';
 import { LinesComponent } from './lines/lines.component';
+import { RetourComponent } from './retour/retour.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LinesComponent } from './lines/lines.component';
     SearchComponent,
     LineDetailComponent,
     HomeComponent,
-    LinesComponent
+    LinesComponent,
+    RetourComponent
   ],
   imports: [
     BrowserModule,

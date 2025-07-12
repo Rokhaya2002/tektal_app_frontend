@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Signaler une erreur ou donner un avis</h2>
+  <p class="description">
+    Vous avez remarqué une erreur sur un trajet ? Vous souhaitez nous aider à améliorer la plateforme ? Partagez votre retour ici.
+  </p>
+
+  <form (ngSubmit)="envoyerRetour()" #retourForm="ngForm" class="form">
+    <select name="type" [(ngModel)]="form.type" required>
+      <option value="" disabled selected hidden>Type de retour *</option>
+      <option value="avis">Avis général</option>
+      <option value="erreur">Erreur sur un trajet</option>
+      <option value="suggestion">Suggestion d'amélioration</option>
+    </select>
+
+    <textarea name="message" [(ngModel)]="form.message" required placeholder="Votre message *" rows="5"></textarea>
+
+    <button type="submit" [disabled]="!retourForm.valid">Envoyer</button>
+  </form>
+</div>

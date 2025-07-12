@@ -1,0 +1,119 @@
+/* Appliquer une couleur de fond douce à la page */
+body {
+  background-color: #f3f9ff;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Conteneur principal centré */
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+/* Titre */
+h2 {
+  text-align: center;
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+/* Description */
+.description {
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Formulaire */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Champs (select & textarea) */
+select,
+textarea {
+  padding: 14px;
+  border: 2px solid #28a745;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #2c3e50;
+  outline: none;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Style spécial du select avec flèche personnalisée */
+select {
+  height: 50px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%232c3e50' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 35px;
+}
+
+/* Bouton envoyer */
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: fit-content;
+  align-self: center;
+}
+
+button[type="submit"]:hover:enabled {
+  background-color: #1e7e34;
+  transform: translateY(-2px);
+}
+
+/* Style du bouton désactivé (vert pâle) */
+button[type="submit"]:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+/* ✅ Responsive : pour les écrans < 500px */
+@media (max-width: 500px) {
+  .container {
+    margin: 30px 16px;
+    padding: 25px 20px;
+    border-radius: 12px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  textarea,
+  select {
+    font-size: 15px;
+  }
+
+  button[type="submit"] {
+    font-size: 15px;
+    padding: 12px 20px;
+  }
+}
