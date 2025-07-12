@@ -6,14 +6,19 @@ import { LineDetailComponent } from './line-detail/line-detail.component';
 import { LinesComponent } from './lines/lines.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },             
-  { path: 'search', component: SearchComponent },     
+  { path: '', component: HomeComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'line/:id', component: LineDetailComponent },
-   { path: 'lines', component: LinesComponent }
+  { path: 'lines', component: LinesComponent },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

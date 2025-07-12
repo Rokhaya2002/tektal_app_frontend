@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-line-detail',
   templateUrl: './line-detail.component.html',
-  styleUrls: ['./line-detail.component.css']
+  styleUrls: ['./line-detail.component.css'],
 })
 export class LineDetailComponent implements OnInit {
   line: any = null;
@@ -16,9 +16,14 @@ export class LineDetailComponent implements OnInit {
     private router: Router
   ) {}
 
-  // Fonction pour revenir à la page de recherche
+  // Fonction pour revenir à la page précédente
   goBack(): void {
-    this.router.navigate(['/search']);
+    window.history.back();
+  }
+
+  // Fonction pour aller à la page des lignes
+  goToLines(): void {
+    this.router.navigate(['/lines']);
   }
 
   ngOnInit(): void {
@@ -31,8 +36,7 @@ export class LineDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur lors du chargement des détails de la ligne', err);
-      }
+      },
     });
   }
 }
-

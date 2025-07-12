@@ -5,7 +5,6 @@
 
 <!-- 🔍 Conteneur principal de la recherche d'itinéraire -->
 <div class="search-container">
-
   <!-- 🖼️ Logo de l'application -->
   <div class="logo-container">
     <img src="assets/logo2.png" alt="TekTall Logo" />
@@ -14,41 +13,191 @@
   <!-- 🧭 Titre principal de la page -->
   <h1><i class="fas fa-map-signs"></i> Recherche d'itinéraire</h1>
 
-  <!-- 📝 Formulaire de recherche (départ et destination) -->
+  <!-- 📝 Formulaire de recherche avec autocomplétion -->
   <form (ngSubmit)="onSearch()" class="form-container">
-
-    <!-- Champ pour le point de départ -->
+    <!-- Champ pour le point de départ avec autocomplétion -->
     <div class="input-group">
       <span><i class="fas fa-location-dot"></i></span>
-      <input type="text" placeholder="Départ" [(ngModel)]="from" name="from" required />
+      <input
+        type="text"
+        placeholder="Départ"
+        [(ngModel)]="from"
+        name="from"
+        (input)="onFromInput()"
+        (blur)="closeSuggestions()"
+        (focus)="onFromInput()"
+        required
+        autocomplete="off"
+      />
+      <!-- Suggestions pour le départ -->
+      <div
+        *ngIf="showFromSuggestions && fromSuggestions.length > 0"
+        class="suggestions-dropdown"
+      >
+        <div
+          *ngFor="let suggestion of fromSuggestions"
+          class="suggestion-item"
+          (mousedown)="selectFromSuggestion(suggestion)"
+        >
+          <i class="fas fa-map-marker-alt"></i>
+          {{ suggestion }}
+        </div>
+      </div>
     </div>
 
-    <!-- Champ pour la destination -->
+    <!-- Champ pour la destination avec autocomplétion -->
     <div class="input-group">
       <span><i class="fas fa-flag-checkered"></i></span>
-      <input type="text" placeholder="Destination" [(ngModel)]="to" name="to" required />
+      <input
+        type="text"
+        placeholder="Destination"
+        [(ngModel)]="to"
+        name="to"
+        (input)="onToInput()"
+        (blur)="closeSuggestions()"
+        (focus)="onToInput()"
+        required
+        autocomplete="off"
+      />
+      <!-- Suggestions pour la destination -->
+      <div
+        *ngIf="showToSuggestions && toSuggestions.length > 0"
+        class="suggestions-dropdown"
+      >
+        <div
+          *ngFor="let suggestion of toSuggestions"
+          class="suggestion-item"
+          (mousedown)="selectToSuggestion(suggestion)"
+        >
+          <i class="fas fa-map-marker-alt"></i>
+          {{ suggestion }}
+        </div>
+      </div>
     </div>
 
-    <!-- Bouton pour soumettre la recherche -->
-    <button type="submit"><i class="fas fa-search"></i> Rechercher</button>
+    <!-- Boutons d'action -->
+    <div class="form-actions">
+      <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i> Rechercher
+      </button>
+      <button type="button" class="history-btn" (click)="toggleHistory()">
+        <i class="fas fa-history"></i> Historique
+      </button>
+    </div>
   </form>
+
+  <!-- 📚 Historique de recherche -->
+  <div *ngIf="showHistory" class="history-section">
+    <div class="history-header">
+      <h3><i class="fas fa-history"></i> Historique de recherche</h3>
+      <button class="clear-history-btn" (click)="clearHistory()">
+        <i class="fas fa-trash"></i> Effacer
+      </button>
+    </div>
+
+    <!-- Suggestions basées sur l'historique -->
+    <div *ngIf="historySuggestions.length > 0" class="history-suggestions">
+      <h4><i class="fas fa-lightbulb"></i> Suggestions populaires</h4>
+      <div class="suggestion-chips">
+        <span
+          *ngFor="let suggestion of historySuggestions"
+          class="suggestion-chip"
+          (click)="from = suggestion; onSearch()"
+        >
+          {{ suggestion }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Liste des recherches récentes -->
+    <div *ngIf="searchHistory.length > 0" class="recent-searches">
+      <h4><i class="fas fa-clock"></i> Recherches récentes</h4>
+      <div class="history-list">
+        <div
+          *ngFor="let item of searchHistory.slice(0, 8)"
+          class="history-item"
+          (click)="selectFromHistory(item)"
+        >
+          <div class="history-route">
+            <span class="from">{{ item.from }}</span>
+            <i class="fas fa-arrow-right"></i>
+            <span class="to">{{ item.to }}</span>
+          </div>
+          <div class="history-meta">
+            <span class="history-date">{{
+              formatHistoryDate(item.last_searched_at)
+            }}</span>
+            <span *ngIf="item.count > 1" class="search-count">
+              {{ item.count }} fois
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message si pas d'historique -->
+    <div *ngIf="searchHistory.length === 0" class="no-history">
+      <p><i class="fas fa-info-circle"></i> Aucune recherche récente</p>
+      <p>
+        Vos recherches apparaîtront ici pour vous aider à retrouver rapidement
+        vos trajets favoris.
+      </p>
+    </div>
+  </div>
+
+  <!-- 🔄 Suggestions en temps réel -->
+  <div *ngIf="from && to && results.length > 0" class="realtime-suggestions">
+    <h3>💡 Suggestions en temps réel</h3>
+    <p>Dès que vous tapez, nous trouvons les meilleures lignes pour vous !</p>
+  </div>
 
   <!-- ✅ Affichage des résultats s'ils existent -->
   <div *ngIf="results.length > 0" class="results">
-    <h2><i class="fas fa-road"></i> Trajets trouvés</h2>
+    <h2><i class="fas fa-road"></i> Trajets trouvés ({{ results.length }})</h2>
 
     <!-- 🔁 Boucle sur chaque ligne trouvée -->
     <div class="line-card" *ngFor="let line of results">
-      <h3><i class="fas fa-bus"></i> {{ line.name }}</h3>
-      <p><strong>Trajet :</strong> {{ line.departure }} → {{ line.destination }}</p>
+      <div class="line-header">
+        <h3><i class="fas fa-bus"></i> {{ line.name }}</h3>
+        <span class="direction-badge" [class.reversed]="line.reversed">
+          {{ line.reversed ? "🔄 Retour" : "➡️ Aller" }}
+        </span>
+      </div>
+
+      <div class="line-route">
+        <p>
+          <strong>Trajet :</strong> {{ line.departure }} →
+          {{ line.destination }}
+        </p>
+        <p *ngIf="line.stops_count" class="stops-info">
+          <i class="fas fa-map-pin"></i> {{ line.stops_count }} arrêts
+        </p>
+      </div>
 
       <!-- 🔗 Lien vers la page de détails de la ligne -->
-      <a [routerLink]="['/line', line.id]" class="details-btn">Voir les détails</a>
+      <a [routerLink]="['/line', line.id]" class="details-btn"
+        >Voir les détails</a
+      >
     </div>
   </div>
 
   <!-- ❌ Message affiché si aucun résultat trouvé -->
   <div *ngIf="noResult" class="no-result">
     <p><i class="fas fa-face-frown"></i> 😞 Aucun trajet trouvé</p>
+    <p class="help-text">
+      Essayez avec d'autres arrêts ou vérifiez l'orthographe
+    </p>
+  </div>
+
+  <!-- 💡 Conseils d'utilisation -->
+  <div class="tips-section">
+    <h3>💡 Conseils d'utilisation</h3>
+    <ul>
+      <li>Commencez à taper pour voir les suggestions d'arrêts</li>
+      <li>Les suggestions apparaissent après 2 caractères</li>
+      <li>Cliquez sur une suggestion pour la sélectionner</li>
+      <li>La recherche se fait automatiquement en temps réel</li>
+      <li>Consultez votre historique pour retrouver vos recherches récentes</li>
+    </ul>
   </div>
 </div>

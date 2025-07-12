@@ -1,30 +1,78 @@
 <div class="lines-container">
-
   <div class="back-button">
     <button routerLink="/" class="btn-back">← Retour à l'accueil</button>
   </div>
-  
-  <h2>Lignes disponibles</h2>
 
+  <h2>📊 Lignes disponibles</h2>
 
-  <div class="filter-buttons">
-    <button (click)="setFilter('TATA')" [class.active]="lineType === 'TATA'">TATA</button>
-    <button (click)="setFilter('DDD')" [class.active]="lineType === 'DDD'">Dakar Dem Dikk</button>
-
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="loading-indicator">
+    <p>🔄 Chargement des lignes...</p>
   </div>
 
- 
+  <!-- Indicateur d'erreur -->
+  <div *ngIf="error" class="error-indicator">
+    <p>❌ Erreur lors du chargement des lignes</p>
+    <button (click)="ngOnInit()" class="retry-btn">🔄 Réessayer</button>
+  </div>
 
-  <ul *ngIf="filteredLines().length > 0" class="line-list">
-    <li *ngFor="let line of filteredLines()" class="line-item">
-      <div class="line-icon">🚍</div>
-      <div class="line-info">
-        <strong>{{ line.name }}</strong><br />
-        <span class="line-route">{{ line.departure }} → {{ line.destination }}</span>
-      </div>
-      <a [routerLink]="['/line', line.id]" class="line-details-link">Détails</a>
-    </li>
-  </ul>
+  <!-- Contenu principal -->
+  <div *ngIf="!loading && !error">
+    <div class="filter-buttons">
+      <button (click)="setFilter('TATA')" [class.active]="lineType === 'TATA'">
+        🟢 TATA
+      </button>
+      <button (click)="setFilter('DDD')" [class.active]="lineType === 'DDD'">
+        🔵 Dakar Dem Dikk
+      </button>
+    </div>
 
-  <p *ngIf="filteredLines().length === 0" class="no-line">Aucune ligne trouvée.</p>
+    <div class="stats-info">
+      <p>
+        📈 {{ filteredLines().length }} ligne(s)
+        {{ lineType === "TATA" ? "TATA" : "DDD" }} disponible(s)
+      </p>
+    </div>
+
+    <ul *ngIf="filteredLines().length > 0" class="line-list">
+      <li *ngFor="let line of filteredLines()" class="line-item">
+        <div
+          class="line-badge"
+          [ngClass]="{
+            tata: line.name.toLowerCase().includes('tata'),
+            ddd: line.name.toLowerCase().includes('ddd')
+          }"
+        >
+          {{ line.name.toLowerCase().includes("tata") ? "🟢 TATA" : "🔵 DDD" }}
+        </div>
+        <div class="line-info">
+          <div class="line-header">
+            <span class="line-title">{{ line.name }}</span>
+            <span class="stops-count"
+              >🚏 {{ line.stops_count || "?" }} arrêts</span
+            >
+          </div>
+          <div class="line-route">
+            <span class="departure"
+              ><i class="fas fa-play"></i> {{ line.departure }}</span
+            >
+            <span class="arrow">→</span>
+            <span class="destination"
+              ><i class="fas fa-flag-checkered"></i>
+              {{ line.destination }}</span
+            >
+          </div>
+        </div>
+        <div class="line-actions">
+          <a [routerLink]="['/line', line.id]" class="line-details-link"
+            >🗺️ Voir le trajet</a
+          >
+        </div>
+      </li>
+    </ul>
+
+    <p *ngIf="filteredLines().length === 0" class="no-line">
+      ❌ Aucune ligne trouvée.
+    </p>
+  </div>
 </div>

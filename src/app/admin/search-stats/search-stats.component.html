@@ -1,0 +1,89 @@
+<div class="stats-container">
+  <div class="stats-header">
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-label">Total recherches</div>
+        <div class="stat-value">{{ stats?.total_searches || 0 }}</div>
+        <div class="stat-desc">Toutes les recherches</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Recherches uniques</div>
+        <div class="stat-value">{{ stats?.unique_searches || 0 }}</div>
+        <div class="stat-desc">Trajets différents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Aujourd'hui</div>
+        <div class="stat-value">{{ stats?.today_searches || 0 }}</div>
+        <div class="stat-desc">Recherches du jour</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Cette semaine</div>
+        <div class="stat-value">{{ stats?.week_searches || 0 }}</div>
+        <div class="stat-desc">Recherches de la semaine</div>
+      </div>
+    </div>
+    <div class="stats-graph-block">
+      <div class="stats-graph-header">
+        <span>Évolution des recherches</span>
+        <select [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+          <option value="day">24h</option>
+          <option value="week">7 jours</option>
+          <option value="month">30 jours</option>
+        </select>
+      </div>
+      <div class="stats-graph">
+        <div *ngIf="chartData.length > 0" class="chart-container">
+          <div id="apexChart"></div>
+        </div>
+        <div *ngIf="chartData.length === 0" class="no-chart-data">
+          Aucune donnée pour cette période
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-tops">
+    <div class="top-block">
+      <div class="top-title">Top destinations</div>
+      <ul>
+        <li *ngFor="let dest of stats?.top_destinations || []">
+          <span class="top-name">{{ dest.destination }}</span>
+          <span class="top-count">{{ dest.total_searches }}</span>
+        </li>
+        <li *ngIf="!stats?.top_destinations?.length" class="empty">
+          Aucune donnée
+        </li>
+      </ul>
+    </div>
+    <div class="top-block">
+      <div class="top-title">Top départs</div>
+      <ul>
+        <li *ngFor="let dep of stats?.top_departures || []">
+          <span class="top-name">{{ dep.departure }}</span>
+          <span class="top-count">{{ dep.total_searches }}</span>
+        </li>
+        <li *ngIf="!stats?.top_departures?.length" class="empty">
+          Aucune donnée
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stats-recent">
+    <div class="recent-title">Recherches récentes</div>
+    <ul>
+      <li *ngFor="let search of (stats?.recent_searches || []).slice(0, 10)">
+        <span class="recent-route">{{ search.from }} → {{ search.to }}</span>
+        <span class="recent-count">{{ search.count }} fois</span>
+        <span class="recent-date">{{
+          search.last_searched_at
+            ? (search.last_searched_at | date : "dd/MM/yyyy HH:mm")
+            : "Récemment"
+        }}</span>
+      </li>
+      <li *ngIf="!stats?.recent_searches?.length" class="empty">
+        Aucune recherche récente
+      </li>
+    </ul>
+  </div>
+</div>

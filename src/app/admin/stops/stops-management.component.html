@@ -1,0 +1,295 @@
+<div class="stops-management-container">
+  <header class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button class="back-btn" (click)="navigateToDashboard()">
+          <span>←</span> Retour
+        </button>
+        <h1>Gestion des Arrêts</h1>
+      </div>
+      <div class="header-actions">
+        <button class="add-stop-btn" (click)="openAddStopModal()">
+          <span>➕</span> Ajouter un Arrêt
+        </button>
+        <button class="nav-btn" (click)="navigateToLines()">
+          <span>🚌</span> Gérer les Lignes
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="content-grid">
+      <!-- Formulaire -->
+      <div class="form-section">
+        <div class="form-card">
+          <h2>{{ isEditing ? "Modifier l'Arrêt" : "Nouvel Arrêt" }}</h2>
+
+          <form [formGroup]="stopForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name">Nom de l'arrêt</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                placeholder="Ex: Gare Centrale"
+                [class.error]="
+                  stopForm.get('name')?.invalid && stopForm.get('name')?.touched
+                "
+              />
+              <div
+                class="error-message"
+                *ngIf="
+                  stopForm.get('name')?.invalid && stopForm.get('name')?.touched
+                "
+              >
+                <span *ngIf="stopForm.get('name')?.errors?.['required']"
+                  >Nom requis</span
+                >
+              </div>
+            </div>
+
+            <div class="error-message" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <div class="success-message" *ngIf="successMessage">
+              {{ successMessage }}
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                [disabled]="stopForm.invalid || loading"
+                class="submit-btn"
+              >
+                <span *ngIf="loading">Enregistrement...</span>
+                <span *ngIf="!loading">{{
+                  isEditing ? "Modifier" : "Créer"
+                }}</span>
+              </button>
+              <button
+                type="button"
+                *ngIf="isEditing"
+                (click)="cancelEdit()"
+                class="cancel-btn"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Liste des arrêts -->
+      <div class="list-section">
+        <div class="list-card">
+          <h2>Arrêts existants</h2>
+
+          <div class="loading-indicator" *ngIf="loading">
+            <p>Chargement des arrêts...</p>
+          </div>
+
+          <div class="stops-table-wrapper" *ngIf="!loading">
+            <table class="stops-table">
+              <thead>
+                <tr>
+                  <th>Nom de l'arrêt</th>
+                  <th style="width: 90px; text-align: right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stop of paginatedStops">
+                  <td class="stop-table-name">{{ stop.name }}</td>
+                  <td class="stop-table-actions">
+                    <button
+                      class="edit-btn"
+                      (click)="editStop(stop)"
+                      title="Modifier"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      class="delete-btn"
+                      (click)="deleteStop(stop.id)"
+                      title="Supprimer"
+                    >
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="paginatedStops.length === 0">
+                  <td colspan="2" class="empty-state">
+                    Aucun arrêt créé pour le moment
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="stops-table-pagination" *ngIf="stops.length > pageSize">
+              <button (click)="prevPage()" [disabled]="page === 1">
+                Précédent
+              </button>
+              <span>Page {{ page }}</span>
+              <button (click)="nextPage()" [disabled]="!hasMoreStops()">
+                Voir plus
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal pour ajouter/sélectionner un arrêt -->
+  <div
+    class="modal-overlay"
+    *ngIf="showAddStopModal"
+    (click)="closeAddStopModal()"
+  >
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Ajouter un Arrêt</h2>
+        <button class="close-btn" (click)="closeAddStopModal()">
+          <span>✕</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Guide d'utilisation mobile -->
+        <div class="mobile-guide" *ngIf="isMobileDevice()">
+          <div class="guide-content">
+            <h3>📱 Guide d'utilisation mobile</h3>
+            <ul>
+              <li>
+                <strong>Tapez</strong> le nom de l'arrêt dans la barre de
+                recherche
+              </li>
+              <li>
+                <strong>Cliquez</strong> sur un arrêt existant pour le
+                sélectionner
+              </li>
+              <li>
+                <strong>Ou créez</strong> un nouvel arrêt si l'arrêt n'existe
+                pas
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Recherche d'arrêts existants -->
+        <div class="search-section">
+          <label for="searchInput">Rechercher un arrêt existant :</label>
+          <input
+            type="text"
+            id="searchInput"
+            [(ngModel)]="searchTerm"
+            (input)="searchStops()"
+            placeholder="Tapez le nom de l'arrêt..."
+            class="search-input"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          />
+        </div>
+
+        <!-- Résultats de recherche -->
+        <div class="search-results" *ngIf="searchTerm.trim() !== ''">
+          <!-- Arrêts existants trouvés -->
+          <div class="existing-stops" *ngIf="filteredStops.length > 0">
+            <h3>Arrêts existants :</h3>
+            <div
+              class="stop-option"
+              *ngFor="let stop of filteredStops"
+              (click)="selectExistingStop(stop)"
+            >
+              <div class="stop-option-info">
+                <span class="stop-name">{{ stop.name }}</span>
+              </div>
+              <span class="select-indicator">Cliquez pour sélectionner</span>
+            </div>
+          </div>
+
+          <!-- Option pour créer un nouvel arrêt -->
+          <div class="create-new-option" *ngIf="isCreatingNew">
+            <h3>Créer un nouvel arrêt :</h3>
+            <div class="new-stop-preview">
+              <p><strong>Nom :</strong> {{ searchTerm }}</p>
+              <p class="info-text">Cliquez ci-dessous pour créer cet arrêt</p>
+            </div>
+            <button class="create-new-btn" (click)="createNewStop()">
+              <span>➕</span> Créer "{{ searchTerm }}"
+            </button>
+          </div>
+
+          <!-- Aucun résultat -->
+          <div
+            class="no-results"
+            *ngIf="filteredStops.length === 0 && !isCreatingNew"
+          >
+            <p>Aucun arrêt trouvé avec ce nom</p>
+          </div>
+        </div>
+
+        <!-- Formulaire pour nouvel arrêt -->
+        <div
+          class="new-stop-form"
+          *ngIf="isCreatingNew && selectedStop === null"
+        >
+          <h3>Créer un nouvel arrêt</h3>
+          <form [formGroup]="stopForm" (ngSubmit)="confirmAddStop()">
+            <div class="form-group">
+              <label for="modalName">Nom de l'arrêt</label>
+              <input
+                type="text"
+                id="modalName"
+                formControlName="name"
+                placeholder="Ex: Gare Centrale"
+                [class.error]="
+                  stopForm.get('name')?.invalid && stopForm.get('name')?.touched
+                "
+              />
+            </div>
+
+            <div class="modal-actions">
+              <button
+                type="submit"
+                [disabled]="stopForm.invalid || loading"
+                class="confirm-btn"
+              >
+                <span *ngIf="loading">Création...</span>
+                <span *ngIf="!loading">Créer l'arrêt</span>
+              </button>
+              <button
+                type="button"
+                (click)="closeAddStopModal()"
+                class="cancel-btn"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Confirmation pour arrêt existant -->
+        <div class="existing-stop-confirmation" *ngIf="selectedStop">
+          <h3>Arrêt sélectionné :</h3>
+          <div class="selected-stop-info">
+            <p><strong>Nom :</strong> {{ selectedStop.name }}</p>
+          </div>
+          <div class="modal-actions">
+            <button class="confirm-btn" (click)="confirmAddStop()">
+              Utiliser cet arrêt
+            </button>
+            <button
+              type="button"
+              (click)="closeAddStopModal()"
+              class="cancel-btn"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

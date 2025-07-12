@@ -5,17 +5,98 @@
 </div>
 
 <div *ngIf="line" class="line-detail-container">
-  <!-- Nom de la ligne de bus -->
+  <!-- En-tête de la ligne -->
+  <div class="line-header">
+    <div class="line-icon">🚌</div>
+    <div class="line-title">
   <h1>{{ line.name }}</h1>
-  <!-- Affichage du trajet : départ → destination -->
-  <p class="trajet"><strong>Trajet :</strong> {{ line.departure }} <span>→</span> {{ line.destination }}</p>
+      <div class="line-type-badge">
+        {{ line.name.includes("TATA") ? "TATA" : "DDD" }}
+      </div>
+    </div>
+  </div>
 
-  <h2>Arrêts</h2>
-  <!-- Liste des arrêts de la ligne -->
+  <!-- Informations du trajet -->
+  <div class="trajet-info">
+    <div class="trajet-route">
+      <div class="departure-point">
+        <span class="point-icon">📍</span>
+        <div class="point-details">
+          <span class="point-label">Départ</span>
+          <span class="point-name">{{ line.departure }}</span>
+        </div>
+      </div>
+
+      <div class="route-arrow">
+        <span class="arrow-line"></span>
+        <span class="arrow-head">→</span>
+        <span class="arrow-line"></span>
+      </div>
+
+      <div class="destination-point">
+        <span class="point-icon">🎯</span>
+        <div class="point-details">
+          <span class="point-label">Destination</span>
+          <span class="point-name">{{ line.destination }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Informations sur le sens -->
+  <div class="direction-info">
+    <h3>🔄 Sens de circulation</h3>
+    <div class="direction-badges">
+      <span class="direction-badge aller">
+        <span class="badge-icon">➡️</span>
+        Aller ({{ line.departure }} → {{ line.destination }})
+      </span>
+      <span class="direction-badge retour">
+        <span class="badge-icon">⬅️</span>
+        Retour ({{ line.destination }} → {{ line.departure }})
+      </span>
+    </div>
+  </div>
+
+  <!-- Liste des arrêts -->
+  <div class="stops-section">
+    <h2>🚏 Arrêts de la ligne</h2>
+    <div class="stops-info">
+      <p>📊 {{ line.stops.length }} arrêts au total</p>
+    </div>
+
+    <div class="stops-timeline">
   <ul class="stops-list">
-    <li *ngFor="let stop of line.stops">
-      <!-- Affiche l’ordre et le nom de l’arrêt -->
-      <span class="order">{{ stop.stop_order }}</span> {{ stop.name }}
+        <li *ngFor="let stop of line.stops; let i = index" class="stop-item">
+          <div class="stop-marker">
+            <span class="stop-number">{{ stop.stop_order }}</span>
+          </div>
+          <div class="stop-content">
+            <span class="stop-name">{{ stop.name }}</span>
+            <span class="stop-position">{{
+              i === 0
+                ? "Départ"
+                : i === line.stops.length - 1
+                ? "Terminus"
+                : "Arrêt intermédiaire"
+            }}</span>
+          </div>
     </li>
   </ul>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-section">
+    <button
+      class="action-btn search-btn"
+      [routerLink]="['/search']"
+      [queryParams]="{ from: line.departure, to: line.destination }"
+    >
+      🔍 Rechercher ce trajet
+    </button>
+    <button class="action-btn back-btn" (click)="goToLines()">
+      📋 Voir toutes les lignes
+    </button>
+  </div>
 </div>

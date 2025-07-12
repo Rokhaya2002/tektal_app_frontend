@@ -1,0 +1,246 @@
+<div class="lines-management-container">
+  <header class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button class="back-btn" (click)="navigateToDashboard()">
+          <span>←</span> Retour
+        </button>
+        <h1>Gestion des Lignes de Bus</h1>
+      </div>
+      <button class="nav-btn" (click)="navigateToStops()">
+        <span>📍</span> Gérer les Arrêts
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="content-grid">
+      <!-- Formulaire -->
+      <div class="form-section">
+        <div class="form-card">
+          <h2>{{ isEditing ? "Modifier la Ligne" : "Nouvelle Ligne" }}</h2>
+
+          <form [formGroup]="lineForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name">Nom de la ligne</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                placeholder="Ex: Ligne 1"
+                [class.error]="
+                  lineForm.get('name')?.invalid && lineForm.get('name')?.touched
+                "
+              />
+              <div
+                class="error-message"
+                *ngIf="
+                  lineForm.get('name')?.invalid && lineForm.get('name')?.touched
+                "
+              >
+                <span *ngIf="lineForm.get('name')?.errors?.['required']"
+                  >Nom requis</span
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="departure">Départ</label>
+                <input
+                  type="text"
+                  id="departure"
+                  formControlName="departure"
+                  placeholder="Point de départ"
+                  [class.error]="
+                    lineForm.get('departure')?.invalid &&
+                    lineForm.get('departure')?.touched
+                  "
+                />
+                <div
+                  class="error-message"
+                  *ngIf="
+                    lineForm.get('departure')?.invalid &&
+                    lineForm.get('departure')?.touched
+                  "
+                >
+                  <span *ngIf="lineForm.get('departure')?.errors?.['required']"
+                    >Départ requis</span
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="destination">Destination</label>
+                <input
+                  type="text"
+                  id="destination"
+                  formControlName="destination"
+                  placeholder="Point d'arrivée"
+                  [class.error]="
+                    lineForm.get('destination')?.invalid &&
+                    lineForm.get('destination')?.touched
+                  "
+                />
+                <div
+                  class="error-message"
+                  *ngIf="
+                    lineForm.get('destination')?.invalid &&
+                    lineForm.get('destination')?.touched
+                  "
+                >
+                  <span
+                    *ngIf="lineForm.get('destination')?.errors?.['required']"
+                    >Destination requise</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Sélection d'arrêts mobile-friendly -->
+            <div class="form-group">
+              <label>Sélection des arrêts</label>
+
+              <!-- Bouton pour ouvrir/fermer la sélection -->
+              <button
+                type="button"
+                class="stops-selection-btn"
+                (click)="toggleStopsSelection()"
+                [class.active]="showStopsSelection"
+              >
+                <span class="stops-text">{{ getSelectedStopsText() }}</span>
+                <span class="toggle-icon">{{
+                  showStopsSelection ? "▼" : "▶"
+                }}</span>
+              </button>
+
+              <!-- Zone de sélection d'arrêts -->
+              <div class="stops-selection-area" *ngIf="showStopsSelection">
+                <div class="stops-selection-header">
+                  <h4>Sélectionnez les arrêts de la ligne :</h4>
+                  <button
+                    type="button"
+                    class="clear-btn"
+                    (click)="clearSelectedStops()"
+                    *ngIf="selectedStops.length > 0"
+                  >
+                    Effacer tout
+                  </button>
+                </div>
+
+                <div class="stops-grid">
+                  <button
+                    type="button"
+                    class="stop-option"
+                    *ngFor="let stop of stops"
+                    (click)="toggleStopSelection(stop)"
+                    [class.selected]="isStopSelected(stop)"
+                  >
+                    <span class="stop-name">{{ stop.name }}</span>
+                    <span class="selection-indicator">
+                      {{ isStopSelected(stop) ? "✓" : "+" }}
+                    </span>
+                  </button>
+                </div>
+
+                <div
+                  class="selected-stops-summary"
+                  *ngIf="selectedStops.length > 0"
+                >
+                  <h4>Arrêts sélectionnés ({{ selectedStops.length }}) :</h4>
+                  <div class="selected-stops-list">
+                    <span
+                      class="selected-stop-tag"
+                      *ngFor="let stop of selectedStops; let i = index"
+                    >
+                      {{ i + 1 }}. {{ stop.name }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="error-message"
+                *ngIf="selectedStops.length === 0 && lineForm.touched"
+              >
+                <span>Au moins un arrêt requis</span>
+              </div>
+            </div>
+
+            <div class="error-message" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <div class="success-message" *ngIf="successMessage">
+              {{ successMessage }}
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                [disabled]="
+                  lineForm.invalid || selectedStops.length === 0 || loading
+                "
+                class="submit-btn"
+              >
+                <span *ngIf="loading">Enregistrement...</span>
+                <span *ngIf="!loading">{{
+                  isEditing ? "Modifier" : "Créer"
+                }}</span>
+              </button>
+              <button
+                type="button"
+                *ngIf="isEditing"
+                (click)="cancelEdit()"
+                class="cancel-btn"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Liste des lignes -->
+      <div class="list-section">
+        <div class="list-card">
+          <h2>Lignes existantes</h2>
+
+          <div class="loading-indicator" *ngIf="loading">
+            <p>Chargement des lignes...</p>
+          </div>
+
+          <div class="lines-list" *ngIf="!loading">
+            <div class="line-item" *ngFor="let line of lines">
+              <div class="line-info">
+                <h3>{{ line.name }}</h3>
+                <div class="line-route">
+                  <span class="departure">{{ line.departure }}</span>
+                  <span class="arrow">→</span>
+                  <span class="destination">{{ line.destination }}</span>
+                </div>
+                <div class="stops-count">
+                  {{ line.stops.length || 0 }} arrêt(s)
+                </div>
+              </div>
+
+              <div class="line-actions">
+                <button class="edit-btn" (click)="editLine(line)">
+                  <span>✏️</span> Modifier
+                </button>
+                <button class="delete-btn" (click)="deleteLine(line.id)">
+                  <span>🗑️</span> Supprimer
+                </button>
+              </div>
+            </div>
+
+            <div class="empty-state" *ngIf="lines.length === 0">
+              <p>Aucune ligne créée pour le moment</p>
+              <p>Créez votre première ligne en utilisant le formulaire</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

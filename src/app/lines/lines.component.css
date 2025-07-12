@@ -1,11 +1,11 @@
 .lines-container {
   padding: 30px 25px;
-  background: #f9fcf9; /* très léger vert clair */
+  background: #f9fcf9;
   border-radius: 18px;
-  box-shadow: 0 12px 28px rgba(40, 167, 69, 0.12); /* ombre douce verte */
-  max-width: 720px;
+  box-shadow: 0 12px 28px rgba(40, 167, 69, 0.12);
+  max-width: 800px;
   margin: 40px auto;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: #2c3e50;
   user-select: none;
 }
@@ -17,7 +17,57 @@
   margin-bottom: 30px;
   font-weight: 700;
   letter-spacing: 1px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.07);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+}
+
+/* Indicateurs de chargement et d'erreur */
+.loading-indicator,
+.error-indicator {
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.loading-indicator {
+  background: linear-gradient(135deg, #e8f5e8, #d4edda);
+  border-left: 4px solid #28a745;
+}
+
+.loading-indicator p {
+  margin: 0;
+  font-size: 18px;
+  color: #155724;
+  font-weight: 600;
+}
+
+.error-indicator {
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  border-left: 4px solid #dc3545;
+}
+
+.error-indicator p {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+  color: #721c24;
+  font-weight: 600;
+}
+
+.retry-btn {
+  padding: 10px 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
 }
 
 /* Boutons filtre */
@@ -25,7 +75,7 @@
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
@@ -33,7 +83,7 @@
   padding: 12px 28px;
   border: none;
   border-radius: 35px;
-  background-color: #d6efd2; /* vert très clair */
+  background-color: #d6efd2;
   font-size: 16px;
   font-weight: 700;
   color: #237a27;
@@ -56,6 +106,23 @@
   transform: scale(1.1);
 }
 
+/* Statistiques */
+.stats-info {
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #e8f5e8;
+  border-radius: 12px;
+  border-left: 4px solid #28a745;
+}
+
+.stats-info p {
+  margin: 0;
+  font-weight: 600;
+  color: #1b4332;
+  font-size: 16px;
+}
+
 /* Liste des lignes */
 .line-list {
   list-style: none;
@@ -69,12 +136,13 @@
   justify-content: space-between;
   background-color: #fff;
   border-radius: 14px;
-  padding: 18px 22px;
+  padding: 20px 22px;
   margin-bottom: 20px;
   box-shadow: 0 4px 14px rgba(40, 167, 69, 0.1);
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.25s ease;
   flex-wrap: wrap;
+  gap: 15px;
 }
 
 .line-item:hover {
@@ -83,7 +151,7 @@
 }
 
 .line-icon {
-  font-size: 28px;
+  font-size: 32px;
   margin-right: 18px;
   color: #28a745;
   flex-shrink: 0;
@@ -91,56 +159,136 @@
 
 .line-info {
   flex: 1;
-  min-width: 220px;
+  min-width: 250px;
   color: #1b4332;
 }
 
-.line-info strong {
+.line-name {
   font-size: 20px;
-  letter-spacing: 0.03em;
+  font-weight: 700;
+  color: #1b4332;
+  margin-bottom: 8px;
   display: block;
-  margin-bottom: 6px;
 }
 
 .line-route {
-  color: #4a6354;
-  font-size: 15px;
-  font-weight: 500;
-  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
-/* Lien détails */
-.line-details-link {
-  color: #237a27;
+.departure,
+.destination {
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.arrow {
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.line-details {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.direction-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.direction-badge.aller {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.direction-badge.retour {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.line-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.line-details-link,
+.search-link {
+  padding: 8px 16px;
+  border-radius: 20px;
   text-decoration: none;
-  font-weight: 700;
-  margin-left: auto;
-  padding: 8px 14px;
-  border-radius: 30px;
-  border: 2px solid #237a27;
+  font-size: 14px;
+  font-weight: 600;
   transition: all 0.3s ease;
-  flex-shrink: 0;
-  white-space: nowrap;
+  display: inline-block;
+}
+
+.line-details-link {
+  background-color: #28a745;
+  color: #fff;
 }
 
 .line-details-link:hover {
-  background-color: #237a27;
-  color: white;
-  box-shadow: 0 6px 14px rgba(35, 122, 39, 0.5);
+  background-color: #1e7e34;
   transform: translateY(-2px);
 }
 
-/* Texte "Aucune ligne" */
-.no-line {
-  text-align: center;
-  color: #7a7a7a;
-  font-style: italic;
-  font-size: 17px;
-  margin-top: 25px;
-  font-weight: 600;
+.search-link {
+  background-color: #17a2b8;
+  color: #fff;
 }
 
-/* Bouton retour */
+.search-link:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+}
+
+.no-line {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .line-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .line-actions {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .line-route {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .arrow {
+    transform: rotate(90deg);
+  }
+}
+
 .back-button {
   text-align: left;
   margin-bottom: 30px;
@@ -165,35 +313,4 @@
   color: #fff;
   box-shadow: 0 8px 18px rgba(40, 167, 69, 0.4);
   transform: translateY(-3px);
-}
-
-/* 📱 Responsive */
-@media (max-width: 600px) {
-  .line-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .line-details-link {
-    margin-top: 10px;
-    margin-left: 0;
-  }
-
-  .line-info strong {
-    font-size: 18px;
-  }
-
-  .line-route {
-    font-size: 14px;
-  }
-
-  .back-button {
-    margin-bottom: 20px;
-  }
-
-  .btn-back {
-    padding: 10px 18px;
-    font-size: 15px;
-    border-radius: 25px;
-  }
 }
