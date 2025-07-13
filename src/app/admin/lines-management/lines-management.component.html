@@ -1,0 +1,198 @@
+<div class="lines-management-container">
+  <header class="management-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">← Retour</button>
+      <h1>Gestion des Lignes de Bus</h1>
+    </div>
+  </header>
+
+  <main class="management-main">
+    <div class="form-section">
+      <h2>
+        {{ editingLine ? "Modifier la ligne" : "Ajouter une nouvelle ligne" }}
+      </h2>
+
+      <form [formGroup]="lineForm" (ngSubmit)="onSubmit()" class="line-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nom de la ligne *</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              placeholder="Ex: Ligne 1"
+              [class.error]="
+                lineForm.get('name')?.invalid && lineForm.get('name')?.touched
+              "
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                lineForm.get('name')?.invalid && lineForm.get('name')?.touched
+              "
+            >
+              Le nom de la ligne est requis
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description *</label>
+            <input
+              type="text"
+              id="description"
+              formControlName="description"
+              placeholder="Description de la ligne"
+              [class.error]="
+                lineForm.get('description')?.invalid &&
+                lineForm.get('description')?.touched
+              "
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                lineForm.get('description')?.invalid &&
+                lineForm.get('description')?.touched
+              "
+            >
+              La description est requise
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="start_stop">Arrêt de départ *</label>
+            <input
+              type="text"
+              id="start_stop"
+              formControlName="start_stop"
+              placeholder="Arrêt de départ"
+              [class.error]="
+                lineForm.get('start_stop')?.invalid &&
+                lineForm.get('start_stop')?.touched
+              "
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                lineForm.get('start_stop')?.invalid &&
+                lineForm.get('start_stop')?.touched
+              "
+            >
+              L'arrêt de départ est requis
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="end_stop">Arrêt d'arrivée *</label>
+            <input
+              type="text"
+              id="end_stop"
+              formControlName="end_stop"
+              placeholder="Arrêt d'arrivée"
+              [class.error]="
+                lineForm.get('end_stop')?.invalid &&
+                lineForm.get('end_stop')?.touched
+              "
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                lineForm.get('end_stop')?.invalid &&
+                lineForm.get('end_stop')?.touched
+              "
+            >
+              L'arrêt d'arrivée est requis
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="is_active" />
+            <span class="checkmark"></span>
+            Ligne active
+          </label>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="lineForm.invalid || loading"
+          >
+            <span *ngIf="!loading">{{
+              editingLine ? "Mettre à jour" : "Créer"
+            }}</span>
+            <span *ngIf="loading">En cours...</span>
+          </button>
+
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="cancelEdit()"
+            *ngIf="editingLine"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="list-section">
+      <h2>Liste des Lignes</h2>
+
+      <div class="loading-spinner" *ngIf="loading && lines.length === 0">
+        <div class="spinner"></div>
+        <p>Chargement des lignes...</p>
+      </div>
+
+      <div class="lines-grid" *ngIf="!loading || lines.length > 0">
+        <div class="line-card" *ngFor="let line of lines">
+          <div class="line-header">
+            <h3>{{ line.name }}</h3>
+            <span
+              class="status-badge"
+              [class.active]="line.is_active"
+              [class.inactive]="!line.is_active"
+            >
+              {{ line.is_active ? "Active" : "Inactive" }}
+            </span>
+          </div>
+
+          <p class="line-description">{{ line.description }}</p>
+
+          <div class="line-stops">
+            <div class="stop-info">
+              <strong>Départ:</strong> {{ line.start_stop }}
+            </div>
+            <div class="stop-info">
+              <strong>Arrivée:</strong> {{ line.end_stop }}
+            </div>
+          </div>
+
+          <div class="line-actions">
+            <button class="edit-btn" (click)="onEditLine(line)">
+              ✏️ Modifier
+            </button>
+            <button class="delete-btn" (click)="onDeleteLine(line)">
+              🗑️ Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="!loading && lines.length === 0">
+        <p>Aucune ligne trouvée. Créez votre première ligne ci-dessus.</p>
+      </div>
+    </div>
+  </main>
+</div>
