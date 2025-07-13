@@ -83,16 +83,6 @@
         <span *ngIf="loading" class="loading-spinner">⏳</span>
         <span *ngIf="!loading">⚡ Accéder à l'administration</span>
       </button>
-
-      <!-- Bouton de test pour diagnostiquer -->
-      <button
-        type="button"
-        (click)="testLogin()"
-        class="login-btn test-btn"
-        style="background: #ED3500; margin-top: 10px;"
-      >
-        🧪 Test - Aller au Dashboard (sans authentification)
-      </button>
     </form>
 
     <div class="admin-info">

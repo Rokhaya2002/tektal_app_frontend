@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AdminAuthService } from '../services/admin-auth.service';
 
 interface Stop {
   id: number;
@@ -39,7 +40,8 @@ export class StopsManagementComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private adminAuthService: AdminAuthService
   ) {
     this.stopForm = this.fb.group({
       name: ['', Validators.required],
@@ -51,11 +53,7 @@ export class StopsManagementComponent implements OnInit {
   }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('admin_token');
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
+    return this.adminAuthService.getAuthHeaders();
   }
 
   get paginatedStops(): Stop[] {
@@ -170,28 +168,20 @@ export class StopsManagementComponent implements OnInit {
       this.loading = true;
       this.errorMessage = '';
       this.successMessage = '';
-
       const stopData = this.stopForm.value;
-
-      const url = this.isEditing
-        ? `http://localhost:8000/api/admin/stops/${this.editingStopId}`
-        : 'http://localhost:8000/api/admin/stops';
-
+      const url =
+        this.isEditing && this.editingStopId
+          ? `http://localhost:8000/api/admin/stops/${this.editingStopId}`
+          : 'http://localhost:8000/api/admin/stops';
       const method = this.isEditing ? 'put' : 'post';
-
       this.http[method](url, stopData, {
         headers: this.getHeaders(),
       }).subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.loading = false;
           this.successMessage = this.isEditing
             ? 'Arrêt modifié avec succès!'
             : 'Arrêt créé avec succès!';
-
-          if (this.isCreatingNew) {
-            this.closeAddStopModal();
-          }
-
           this.resetForm();
           this.loadStops();
         },
@@ -207,9 +197,7 @@ export class StopsManagementComponent implements OnInit {
   editStop(stop: Stop) {
     this.isEditing = true;
     this.editingStopId = stop.id;
-    this.stopForm.patchValue({
-      name: stop.name,
-    });
+    this.stopForm.patchValue({ name: stop.name });
   }
 
   deleteStop(stopId: number) {
@@ -234,21 +222,22 @@ export class StopsManagementComponent implements OnInit {
     this.isEditing = false;
     this.editingStopId = null;
     this.stopForm.reset();
+    this.selectedStop = null;
+    this.isCreatingNew = false;
   }
 
   cancelEdit() {
     this.resetForm();
   }
 
-  navigateToLines() {
-    this.router.navigate(['/admin/lines']);
-  }
-
   navigateToDashboard() {
     this.router.navigate(['/admin/dashboard']);
   }
 
-  // Méthode pour détecter si l'utilisateur est sur mobile
+  navigateToLines() {
+    this.router.navigate(['/admin/lines']);
+  }
+
   isMobileDevice(): boolean {
     return (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

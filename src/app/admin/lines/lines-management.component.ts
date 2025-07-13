@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AdminAuthService } from '../services/admin-auth.service';
 
 interface Line {
   id: number;
@@ -43,7 +44,8 @@ export class LinesManagementComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private adminAuthService: AdminAuthService // Ajouté
   ) {
     this.lineForm = this.fb.group({
       name: ['', Validators.required],
@@ -91,14 +93,7 @@ export class LinesManagementComponent implements OnInit {
   }
 
   private getHeaders(): HttpHeaders {
-    let token = '';
-    if (typeof window !== 'undefined' && localStorage) {
-      token = localStorage.getItem('admin_token') || '';
-    }
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
+    return this.adminAuthService.getAuthHeaders();
   }
 
   loadLines() {

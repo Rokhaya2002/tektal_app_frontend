@@ -110,7 +110,7 @@
 
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* grid-template-columns: 1fr 1fr; */
   gap: 1rem;
 }
 
@@ -537,6 +537,9 @@
 }
 
 @media (max-width: 768px) {
+  .content-grid {
+    display: block !important;
+  }
   .header-content,
   .form-actions,
   .line-actions {
@@ -669,5 +672,23 @@
   }
   .header-content h1 {
     font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 1046px) {
+  .content-grid {
+    display: block !important;
+  }
+  .form-section,
+  .list-section {
+    width: 100%;
+    min-width: 100%;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  .form-card,
+  .list-card {
+    padding: 1rem;
+    border-radius: 10px;
   }
 }

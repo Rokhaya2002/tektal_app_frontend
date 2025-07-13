@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'line/:id', component: LineDetailComponent },
-  { path: 'lines', component: LinesComponent },
+  { path: 'lines', component: LinesComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
   {
     path: 'register',
