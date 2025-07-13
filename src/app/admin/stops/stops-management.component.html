@@ -126,12 +126,28 @@
               </tbody>
             </table>
             <div class="stops-table-pagination" *ngIf="stops.length > pageSize">
-              <button (click)="prevPage()" [disabled]="page === 1">
-                Précédent
+              <button
+                (click)="prevPage()"
+                [disabled]="page === 1"
+                class="pagination-btn"
+              >
+                ← Précédent
               </button>
-              <span>Page {{ page }}</span>
-              <button (click)="nextPage()" [disabled]="!hasMoreStops()">
-                Voir plus
+              <div class="page-info">
+                <span
+                  >Page {{ page }} sur
+                  {{ Math.ceil(stops.length / pageSize) }}</span
+                >
+                <span class="total-info"
+                  >({{ stops.length }} arrêts au total)</span
+                >
+              </div>
+              <button
+                (click)="nextPage()"
+                [disabled]="!hasMoreStops()"
+                class="pagination-btn"
+              >
+                Suivant →
               </button>
             </div>
           </div>

@@ -204,7 +204,25 @@ export class SearchStatsComponent implements OnInit, OnDestroy, AfterViewInit {
             },
           },
         },
-        colors: ['#22c55e'],
+        colors: ['#8b5cf6'],
+        stroke: {
+          curve: 'smooth',
+          width: 3,
+          colors: ['#8b5cf6'],
+        },
+        markers: {
+          size: 5,
+          colors: ['#8b5cf6'],
+          strokeColors: '#fff',
+          strokeWidth: 2,
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#8b5cf6'],
+            fontWeight: 700,
+          },
+        },
         fill: {
           type: 'gradient',
           gradient: {
@@ -215,20 +233,16 @@ export class SearchStatsComponent implements OnInit, OnDestroy, AfterViewInit {
             colorStops: [
               {
                 offset: 0,
-                color: '#22c55e',
+                color: '#8b5cf6',
                 opacity: 0.7,
               },
               {
                 offset: 100,
-                color: '#22c55e',
+                color: '#8b5cf6',
                 opacity: 0.1,
               },
             ],
           },
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 3,
         },
         grid: {
           borderColor: '#e2e8f0',

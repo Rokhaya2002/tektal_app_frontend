@@ -1,11 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Bangers&display=swap");
+
+/* Variables CSS pour la palette de couleurs */
+:root {
+  --primary-color: #093fb4;
+  --background-color: #fffcfb;
+  --accent-color: #ffd8d8;
+  --alert-color: #ed3500;
+  --accent-red: #ed3500;
+
+  /* Variations de la couleur principale */
+  --primary-light: #1a4fc4;
+  --primary-dark: #072a7a;
+
+  /* Variations de l'accent */
+  --accent-light: #ffe8e8;
+  --accent-dark: #ffc0c0;
+
+  /* Couleurs de texte */
+  --text-primary: #222;
+  --text-secondary: #666;
+  --text-light: #999;
+  --text-white: #fffcfb;
+
+  /* Couleurs de fond */
+  --bg-primary: #fffcfb;
+  --bg-secondary: #f8f8f8;
+  --bg-accent: #ffd8d8;
+
+  /* Couleurs d'état */
+  --success-color: var(--primary-color);
+  --warning-color: #ffc107;
+  --error-color: #ed3500;
+  --info-color: #093fb4;
+}
 
 body,
 html {
   font-family: "Inter", Arial, sans-serif;
   font-size: 16px;
-  color: #222;
-  background: #f6fcf7;
+  color: var(--text-primary);
+  background: var(--bg-primary);
 }
 
 h1,
@@ -15,11 +49,30 @@ h4,
 h5,
 h6,
 .sora,
-.title {
-  font-family: "Sora", Arial, sans-serif;
+.title,
+.bangers-title {
+  font-family: "Bangers", "Sora", Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* Titres avec Bangers */
+.bangers-title {
+  font-family: "Bangers", cursive;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(9, 63, 180, 0.2);
+  margin-bottom: 1rem;
+}
+
+.bangers-subtitle {
+  font-family: "Bangers", cursive;
+  font-size: 1.8rem;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .stat-number,
@@ -58,8 +111,262 @@ button,
   h1,
   h2,
   h3,
-  .title {
+  .title,
+  .bangers-title {
     font-size: 1.1rem;
     letter-spacing: 1px;
+  }
+
+  .bangers-title {
+    font-size: 1.8rem;
+    letter-spacing: 1.5px;
+  }
+
+  .bangers-subtitle {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+}
+
+/* Responsive pour tablettes */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .bangers-title {
+    font-size: 2.2rem;
+    letter-spacing: 1.8px;
+  }
+
+  .bangers-subtitle {
+    font-size: 1.6rem;
+    letter-spacing: 1.3px;
+  }
+}
+
+/* Effets spéciaux pour Bangers */
+.bangers-title {
+  position: relative;
+  display: inline-block;
+}
+
+.bangers-title::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.bangers-title:hover::after {
+  transform: scaleX(1);
+}
+
+/* Animation d'apparition pour Bangers */
+@keyframes bangersSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.bangers-title {
+  animation: bangersSlideIn 0.6s ease-out;
+}
+
+/* Styles communs pour la nouvelle palette */
+
+/* Boutons */
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--text-white);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(9, 63, 180, 0.3);
+}
+
+.btn-secondary {
+  background: var(--accent-color);
+  color: var(--text-primary);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 216, 216, 0.3);
+}
+
+.btn-danger {
+  background: var(--alert-color);
+  color: var(--text-white);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: #d42e00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(237, 53, 0, 0.3);
+}
+
+/* Cartes et conteneurs */
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(9, 63, 180, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(9, 63, 180, 0.15);
+  transform: translateY(-2px);
+}
+
+/* En-têtes et titres */
+.header {
+  background: var(--primary-color);
+  color: var(--text-white);
+}
+
+.title-primary {
+  color: var(--primary-color);
+}
+
+.title-accent {
+  color: var(--alert-color);
+}
+
+/* Liens */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* Formulaires */
+input,
+textarea,
+select {
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(9, 63, 180, 0.1);
+}
+
+/* Badges et étiquettes */
+.badge-primary {
+  background: var(--primary-color);
+  color: var(--text-white);
+}
+
+.badge-accent {
+  background: var(--accent-color);
+  color: var(--text-primary);
+}
+
+.badge-alert {
+  background: var(--alert-color);
+  color: var(--text-white);
+}
+
+/* Navigation */
+.nav-link {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color);
+}
+
+/* Arrière-plans de section */
+.section-primary {
+  background: var(--primary-color);
+  color: var(--text-white);
+}
+
+.section-accent {
+  background: var(--accent-color);
+  color: var(--text-primary);
+}
+
+.section-light {
+  background: var(--bg-secondary);
+}
+
+/* Utilitaires */
+.text-primary {
+  color: var(--primary-color);
+}
+.text-accent {
+  color: var(--alert-color);
+}
+.text-muted {
+  color: var(--text-secondary);
+}
+
+.bg-primary {
+  background: var(--primary-color);
+}
+.bg-accent {
+  background: var(--accent-color);
+}
+.bg-light {
+  background: var(--bg-secondary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card {
+    margin: 8px;
+    padding: 16px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
   }
 }

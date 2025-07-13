@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <div class="back-button">
+    <a routerLink="/" class="btn-back"> <span>←</span> Retour à l'accueil </a>
+  </div>
+
+  <div class="profile-card" *ngIf="user">
+    <h2 class="bangers-title">Mon Profil</h2>
+
+    <div class="profile-info">
+      <div class="info-group">
+        <label>Nom complet</label>
+        <p>{{ user.name }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Email</label>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Type de compte</label>
+        <p>{{ user.is_admin ? "Administrateur" : "Utilisateur" }}</p>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="logout-btn" (click)="logout()">🚪 Se déconnecter</button>
+    </div>
+  </div>
+</div>

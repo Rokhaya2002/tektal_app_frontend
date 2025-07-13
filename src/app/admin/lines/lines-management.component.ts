@@ -35,6 +35,11 @@ export class LinesManagementComponent implements OnInit {
   selectedStops: Stop[] = [];
   showStopsSelection = false;
 
+  // Propriétés pour la pagination
+  page = 1;
+  pageSize = 10;
+  totalLines = 0;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -52,8 +57,44 @@ export class LinesManagementComponent implements OnInit {
     this.loadStops();
   }
 
+  // Méthodes de pagination
+  get paginatedLines(): Line[] {
+    const startIndex = (this.page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.lines.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.lines.length / this.pageSize);
+  }
+
+  hasMoreLines(): boolean {
+    return this.page * this.pageSize < this.lines.length;
+  }
+
+  prevPage(): void {
+    if (this.page > 1) {
+      this.page--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.hasMoreLines()) {
+      this.page++;
+    }
+  }
+
+  goToPage(pageNumber: number): void {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.page = pageNumber;
+    }
+  }
+
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('admin_token');
+    let token = '';
+    if (typeof window !== 'undefined' && localStorage) {
+      token = localStorage.getItem('admin_token') || '';
+    }
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

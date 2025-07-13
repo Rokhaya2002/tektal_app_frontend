@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import {
   Subject,
   debounceTime,
@@ -47,9 +49,19 @@ export class SearchComponent implements OnInit, OnDestroy {
   private toSearchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    // Vérifier l'authentification au chargement du composant
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.loadSearchHistory();
 
     // Configuration de l'autocomplétion pour le champ "from"
@@ -88,12 +100,16 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Méthodes pour l'historique de recherche avec API backend
   private loadSearchHistory() {
     this.loadingHistory = true;
+    const headers = this.authService.getAuthHeaders();
+
     this.http
       .get<{ data: SearchHistory[] }>(
-        'http://127.0.0.1:8000/api/search-history?limit=20'
+        'http://127.0.0.1:8000/api/search-history?limit=20',
+        { headers }
       )
       .subscribe({
         next: (response) => {
+          console.log('Historique chargé:', response);
           this.searchHistory = response.data || [];
           this.loadingHistory = false;
         },
@@ -106,11 +122,17 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   private saveSearchHistoryToBackend(from: string, to: string) {
+    const headers = this.authService.getAuthHeaders();
+
     this.http
-      .post('http://127.0.0.1:8000/api/search-history', {
-        from: from,
-        to: to,
-      })
+      .post(
+        'http://127.0.0.1:8000/api/search-history',
+        {
+          from: from,
+          to: to,
+        },
+        { headers }
+      )
       .subscribe({
         next: (response) => {
           console.log("Recherche sauvegardée dans l'historique");
@@ -152,16 +174,23 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   clearHistory() {
-    this.http.delete('http://127.0.0.1:8000/api/search-history').subscribe({
-      next: () => {
-        this.searchHistory = [];
-        this.showHistory = false;
-        console.log('Historique supprimé');
-      },
-      error: (error) => {
-        console.error("Erreur lors de la suppression de l'historique:", error);
-      },
-    });
+    const headers = this.authService.getAuthHeaders();
+
+    this.http
+      .delete('http://127.0.0.1:8000/api/search-history', { headers })
+      .subscribe({
+        next: () => {
+          this.searchHistory = [];
+          this.showHistory = false;
+          console.log('Historique supprimé');
+        },
+        error: (error) => {
+          console.error(
+            "Erreur lors de la suppression de l'historique:",
+            error
+          );
+        },
+      });
   }
 
   toggleHistory() {
@@ -239,19 +268,24 @@ export class SearchComponent implements OnInit, OnDestroy {
     }, 200);
   }
 
-  // Méthode de recherche améliorée
+  // Méthode de recherche améliorée avec vérification d'authentification
   onSearch() {
+    // Vérifier l'authentification avant de permettre la recherche
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     if (!this.from || !this.to) {
       return;
     }
 
-    // La sauvegarde de l'historique se fait automatiquement côté backend
-    // lors de l'appel à l'API de recherche
-
+    const headers = this.authService.getAuthHeaders();
     const url = `http://127.0.0.1:8000/api/search?from=${encodeURIComponent(
       this.from
     )}&to=${encodeURIComponent(this.to)}`;
-    this.http.get<any[]>(url).subscribe(
+
+    this.http.get<any[]>(url, { headers }).subscribe(
       (data) => {
         this.results = data;
         this.noResult = data.length === 0;

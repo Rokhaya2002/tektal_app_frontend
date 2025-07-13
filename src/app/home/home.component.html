@@ -1,15 +1,74 @@
 <div class="home-container">
   <div class="top-bar">
-    <img src="assets/logo2.png" alt="Tektall Logo" class="logo-img" />
-    <h1 class="site-name">Tektall</h1>
+    <div class="header-left">
+      <img src="assets/Logo-tektal.png" alt="Tektall Logo" class="logo-img" />
+    </div>
+
+    <div class="nav-links" [class.hide-on-mobile]="isMenuOpen">
+      <ng-container *ngIf="!isAuthenticated; else authenticatedLinks">
+        <a routerLink="/login" class="nav-link">Se connecter</a>
+        <a routerLink="/register" class="nav-link">S'inscrire</a>
+      </ng-container>
+      <ng-template #authenticatedLinks>
+        <span class="welcome-text">Bonjour, {{ user?.name }}</span>
+        <a routerLink="/profile" class="nav-link">Mon Profil</a>
+      </ng-template>
+    </div>
+
+    <!-- Menu burger pour mobile -->
+    <button
+      class="mobile-menu-btn"
+      (click)="toggleMenu()"
+      aria-label="Menu mobile"
+    >
+      <span class="menu-icon">☰</span>
+    </button>
+  </div>
+
+  <!-- Menu mobile déroulant -->
+  <div class="mobile-menu" *ngIf="isMenuOpen">
+    <ul class="mobile-nav-list">
+      <ng-container *ngIf="!isAuthenticated; else mobileAuthenticatedLinks">
+        <li><a routerLink="/login" (click)="closeMenu()">Se connecter</a></li>
+        <li><a routerLink="/register" (click)="closeMenu()">S'inscrire</a></li>
+      </ng-container>
+      <ng-template #mobileAuthenticatedLinks>
+        <li>
+          <span class="welcome-text">Bonjour, {{ user?.name }}</span>
+        </li>
+        <li><a routerLink="/profile" (click)="closeMenu()">Mon Profil</a></li>
+      </ng-template>
+    </ul>
   </div>
 
   <div class="main-content">
-    <h2 class="headline">Simplifiez vos déplacements dans Dakar</h2>
-    <p class="subheadline">Découvrez les lignes TATA et Dakar Dem Dikk en quelques clics.</p>
+    <h2 class="headline bangers-title">
+      Simplifiez vos déplacements dans Dakar
+    </h2>
+    <p class="subheadline">
+      Découvrez les lignes TATA et Dakar Dem Dikk en quelques clics.
+    </p>
 
     <div class="buttons">
-      <button class="btn-green" routerLink="/search">🚏 Trouver un trajet</button>
+      <ng-container *ngIf="isAuthenticated; else searchNotAuth">
+        <button class="btn-green" routerLink="/search">
+          🚏 Trouver un trajet
+        </button>
+      </ng-container>
+      <ng-template #searchNotAuth>
+        <button class="btn-green" routerLink="/login">
+          🔐 Se connecter pour rechercher
+        </button>
+      </ng-template>
       <button class="btn-white" routerLink="/lines">🚌 Voir les lignes</button>
     </div>
+
+    <!-- Message informatif pour les utilisateurs non connectés -->
+    <div *ngIf="!isAuthenticated" class="auth-notice">
+      <p>
+        <i class="fas fa-info-circle"></i> Connectez-vous pour accéder à la
+        recherche d'itinéraires et à votre historique personnel
+      </p>
+    </div>
   </div>
+</div>

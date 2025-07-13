@@ -1,0 +1,190 @@
+/* Conteneur principal */
+.profile-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    var(--bg-primary) 100%
+  );
+  padding: 15px;
+}
+
+/* Bouton retour */
+.back-button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-color);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-back:hover {
+  background: var(--accent-color);
+  color: var(--text-white);
+  transform: translateY(-2px);
+}
+
+/* Carte de profil */
+.profile-card {
+  background: var(--bg-primary);
+  border-radius: 15px;
+  box-shadow: 0 6px 24px rgba(9, 63, 180, 0.1);
+  padding: 1.8rem;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--accent-color);
+}
+
+/* En-tête */
+.profile-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+}
+
+/* Informations du profil */
+.profile-info {
+  margin-bottom: 1.5rem;
+}
+
+.info-group {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: rgba(255, 216, 216, 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--accent-color);
+}
+
+.info-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-group p {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Actions du profil */
+.profile-actions {
+  text-align: center;
+}
+
+/* Bouton de déconnexion */
+.logout-btn {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+  border: 2px solid #dc2626;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  min-width: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.logout-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.6);
+  color: white;
+  border-color: #ef4444;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
+}
+
+.logout-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 8px;
+  }
+
+  .profile-card {
+    padding: 1.5rem;
+    max-width: 350px;
+  }
+
+  .back-button {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin-bottom: 0.8rem;
+  }
+
+  .profile-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .info-group {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .info-group label {
+    font-size: 0.75rem;
+  }
+
+  .info-group p {
+    font-size: 0.9rem;
+  }
+
+  .logout-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 160px;
+  }
+}

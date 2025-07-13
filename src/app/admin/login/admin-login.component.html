@@ -4,16 +4,25 @@
   </div>
 
   <div class="login-card">
-    <h2>Connexion Administrateur</h2>
+    <div class="login-header">
+      <div class="logo-section">
+        <img src="assets/logo2.png" alt="Tektall Logo" class="login-logo" />
+        <h2 class="bangers-title">Administration</h2>
+      </div>
+      <p class="login-subtitle">Accès au panneau d'administration</p>
+    </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">
+          <span class="icon">👨‍💼</span>
+          Email administrateur
+        </label>
         <input
           type="email"
           id="email"
           formControlName="email"
-          placeholder="admin@example.com"
+          placeholder="admin&#64;tektal.com"
           [class.error]="
             loginForm.get('email')?.invalid && loginForm.get('email')?.touched
           "
@@ -34,12 +43,15 @@
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
+        <label for="password">
+          <span class="icon">🔐</span>
+          Mot de passe
+        </label>
         <input
           type="password"
           id="password"
           formControlName="password"
-          placeholder="Mot de passe"
+          placeholder="Mot de passe administrateur"
           [class.error]="
             loginForm.get('password')?.invalid &&
             loginForm.get('password')?.touched
@@ -58,25 +70,48 @@
         </div>
       </div>
 
-      <div class="error-message" *ngIf="errorMessage">
+      <div class="error-message global-error" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
         {{ errorMessage }}
       </div>
 
       <button
         type="submit"
         [disabled]="loginForm.invalid || loading"
-        class="login-btn"
+        class="login-btn admin-btn"
       >
-        <span *ngIf="loading">Connexion...</span>
-        <span *ngIf="!loading">Se connecter</span>
+        <span *ngIf="loading" class="loading-spinner">⏳</span>
+        <span *ngIf="!loading">⚡ Accéder à l'administration</span>
+      </button>
+
+      <!-- Bouton de test pour diagnostiquer -->
+      <button
+        type="button"
+        (click)="testLogin()"
+        class="login-btn test-btn"
+        style="background: #ED3500; margin-top: 10px;"
+      >
+        🧪 Test - Aller au Dashboard (sans authentification)
       </button>
     </form>
 
-    <div class="register-link">
-      <p>
-        Pas encore de compte administrateur?
-        <a routerLink="/admin/register">S'inscrire</a>
-      </p>
+    <div class="admin-info">
+      <div class="info-card">
+        <h3>🔑 Comptes administrateur</h3>
+        <div class="admin-accounts">
+          <div class="account-info">
+            <strong>Admin Principal:</strong>
+            <span>admin&#64;tektal.com</span>
+          </div>
+          <div class="account-info">
+            <strong>Admin Support:</strong>
+            <span>support&#64;tektal.com</span>
+          </div>
+        </div>
+        <p class="contact-info">
+          Contactez l'équipe technique pour obtenir un compte administrateur.
+        </p>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,98 @@
+<div class="login-container">
+  <div class="back-button">
+    <a routerLink="/" class="btn-back"> <span>←</span> Retour à l'accueil </a>
+  </div>
+
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-section">
+        <img src="assets/logo2.png" alt="Tektall Logo" class="login-logo" />
+        <h2 class="bangers-title">Connexion</h2>
+      </div>
+      <p class="login-subtitle">Connectez-vous à votre compte Tektall</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">
+          <span class="icon">📧</span>
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="votre@email.com"
+          [class.error]="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        />
+        <div
+          class="error-message"
+          *ngIf="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        >
+          <span *ngIf="loginForm.get('email')?.errors?.['required']"
+            >Email requis</span
+          >
+          <span *ngIf="loginForm.get('email')?.errors?.['email']"
+            >Email invalide</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          <span class="icon">🔒</span>
+          Mot de passe
+        </label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Votre mot de passe"
+          [class.error]="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        />
+        <div
+          class="error-message"
+          *ngIf="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        >
+          <span *ngIf="loginForm.get('password')?.errors?.['required']"
+            >Mot de passe requis</span
+          >
+        </div>
+      </div>
+
+      <div class="error-message global-error" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid || loading"
+        class="login-btn"
+      >
+        <span *ngIf="loading" class="loading-spinner">⏳</span>
+        <span *ngIf="!loading">🚀 Se connecter</span>
+      </button>
+    </form>
+
+    <div class="register-link">
+      <div class="divider">
+        <span>ou</span>
+      </div>
+      <p>
+        Pas encore de compte?
+        <a routerLink="/register" class="register-btn-link">Créer un compte</a>
+      </p>
+    </div>
+  </div>
+</div>

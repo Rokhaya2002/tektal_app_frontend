@@ -1,14 +1,27 @@
-<div class="admin-register-container">
+<div class="register-container">
   <div class="back-button">
     <a routerLink="/" class="btn-back"> <span>←</span> Retour à l'accueil </a>
   </div>
 
   <div class="register-card">
-    <h2>Inscription Administrateur</h2>
+    <div class="register-header">
+      <div class="logo-section">
+        <img src="assets/logo2.png" alt="Tektall Logo" class="register-logo" />
+        <h2 class="bangers-title">Inscription</h2>
+      </div>
+      <p class="register-subtitle">Créez votre compte Tektall</p>
+    </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
       <div class="form-group">
-        <label for="name">Nom complet</label>
+        <label for="name">
+          <span class="icon">👤</span>
+          Nom complet
+        </label>
         <input
           type="text"
           id="name"
@@ -33,12 +46,15 @@
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">
+          <span class="icon">📧</span>
+          Email
+        </label>
         <input
           type="email"
           id="email"
           formControlName="email"
-          placeholder="admin@example.com"
+          placeholder="votre@email.com"
           [class.error]="
             registerForm.get('email')?.invalid &&
             registerForm.get('email')?.touched
@@ -61,7 +77,10 @@
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
+        <label for="password">
+          <span class="icon">🔒</span>
+          Mot de passe
+        </label>
         <input
           type="password"
           id="password"
@@ -89,7 +108,10 @@
       </div>
 
       <div class="form-group">
-        <label for="password_confirmation">Confirmer le mot de passe</label>
+        <label for="password_confirmation">
+          <span class="icon">✅</span>
+          Confirmer le mot de passe
+        </label>
         <input
           type="password"
           id="password_confirmation"
@@ -118,11 +140,13 @@
         </div>
       </div>
 
-      <div class="error-message" *ngIf="errorMessage">
+      <div class="error-message global-error" *ngIf="errorMessage">
+        <span class="error-icon">⚠️</span>
         {{ errorMessage }}
       </div>
 
       <div class="success-message" *ngIf="successMessage">
+        <span class="success-icon">✅</span>
         {{ successMessage }}
       </div>
 
@@ -131,15 +155,18 @@
         [disabled]="registerForm.invalid || loading"
         class="register-btn"
       >
-        <span *ngIf="loading">Création du compte...</span>
-        <span *ngIf="!loading">Créer le compte</span>
+        <span *ngIf="loading" class="loading-spinner">⏳</span>
+        <span *ngIf="!loading">🚀 Créer le compte</span>
       </button>
     </form>
 
     <div class="login-link">
+      <div class="divider">
+        <span>ou</span>
+      </div>
       <p>
-        Déjà un compte administrateur?
-        <a routerLink="/admin/login">Se connecter</a>
+        Déjà un compte?
+        <a routerLink="/login" class="login-btn-link">Se connecter</a>
       </p>
     </div>
   </div>

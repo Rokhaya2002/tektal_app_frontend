@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-admin-register',
-  templateUrl: './admin-register.component.html',
-  styleUrls: ['./admin-register.component.css'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
 })
-export class AdminRegisterComponent {
+export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -17,7 +17,7 @@ export class AdminRegisterComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private authService: AuthService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -54,23 +54,21 @@ export class AdminRegisterComponent {
 
       const userData = this.registerForm.value;
 
-      this.http
-        .post('http://localhost:8000/api/admin/register', userData)
-        .subscribe({
-          next: (response: any) => {
-            this.loading = false;
-            this.successMessage =
-              'Compte administrateur créé avec succès! Vous pouvez maintenant vous connecter.';
-            setTimeout(() => {
-              this.router.navigate(['/admin/login']);
-            }, 2000);
-          },
-          error: (error) => {
-            this.loading = false;
-            this.errorMessage =
-              error.error?.message || 'Erreur lors de la création du compte';
-          },
-        });
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          this.loading = false;
+          this.successMessage =
+            'Compte créé avec succès! Vous pouvez maintenant vous connecter.';
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        },
+        error: (error) => {
+          this.loading = false;
+          this.errorMessage =
+            error.error?.message || 'Erreur lors de la création du compte';
+        },
+      });
     }
   }
 }

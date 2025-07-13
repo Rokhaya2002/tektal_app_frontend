@@ -3,7 +3,7 @@
     <button routerLink="/" class="btn-back">← Retour à l'accueil</button>
   </div>
 
-  <h2>📊 Lignes disponibles</h2>
+  <h2 class="bangers-title">📊 Lignes disponibles</h2>
 
   <!-- Indicateur de chargement -->
   <div *ngIf="loading" class="loading-indicator">
@@ -47,7 +47,7 @@
         </div>
         <div class="line-info">
           <div class="line-header">
-            <span class="line-title">{{ line.name }}</span>
+            <span class="line-title bangers-subtitle">{{ line.name }}</span>
             <span class="stops-count"
               >🚏 {{ line.stops_count || "?" }} arrêts</span
             >

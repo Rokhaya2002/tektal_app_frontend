@@ -1,0 +1,431 @@
+/* Conteneur principal */
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    var(--bg-primary) 100%
+  );
+  padding: 10px;
+  position: relative;
+}
+
+/* Effet de fond animé */
+.register-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/assets/kya.png") no-repeat center center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Bouton retour */
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 15px;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-color);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(9, 63, 180, 0.1);
+  font-size: 12px;
+}
+
+.btn-back:hover {
+  background: var(--accent-color);
+  color: var(--text-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(9, 63, 180, 0.2);
+}
+
+/* Carte d'inscription - PLUS COMPACTE */
+.register-card {
+  background: var(--bg-primary);
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(9, 63, 180, 0.15);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  border: 1px solid var(--accent-color);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* En-tête d'inscription - PLUS COMPACT */
+.register-header {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 0.6rem;
+}
+
+.register-logo {
+  height: 35px;
+  width: auto;
+}
+
+.register-card h2 {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(9, 63, 180, 0.1);
+}
+
+.register-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Formulaire - PLUS COMPACT */
+.register-form {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 0.8rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+}
+
+.icon {
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(9, 63, 180, 0.05);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(9, 63, 180, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group input.error {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 2px rgba(237, 53, 0, 0.1);
+}
+
+.form-group input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Messages d'erreur - PLUS COMPACTS */
+.error-message {
+  color: var(--accent-red);
+  font-size: 0.7rem;
+  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.global-error {
+  background: rgba(237, 53, 0, 0.1);
+  border: 1px solid rgba(237, 53, 0, 0.2);
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+  font-size: 0.75rem;
+}
+
+.error-icon {
+  font-size: 0.8rem;
+}
+
+/* Messages de succès - PLUS COMPACTS */
+.success-message {
+  color: #28a745;
+  font-size: 0.75rem;
+  margin: 0.6rem 0;
+  padding: 8px 10px;
+  background: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.success-icon {
+  font-size: 0.8rem;
+}
+
+/* Bouton d'inscription - PLUS COMPACT */
+.register-btn {
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-light) 100%
+  );
+  color: var(--text-white);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(9, 63, 180, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+
+.register-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(9, 63, 180, 0.4);
+}
+
+.register-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Lien de connexion - PLUS COMPACT */
+.login-link {
+  text-align: center;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 0.8rem 0;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent-color);
+  z-index: 1;
+}
+
+.divider span {
+  background: var(--bg-primary);
+  padding: 0 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.login-link p {
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.login-btn-link {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  border: 1px solid var(--accent-color);
+  background: var(--bg-primary);
+}
+
+.login-btn-link:hover {
+  background: var(--accent-color);
+  color: var(--text-white);
+  transform: translateY(-1px);
+}
+
+/* Responsive - PLUS COMPACT */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 8px;
+  }
+
+  .register-card {
+    padding: 1.2rem;
+    max-width: 280px;
+  }
+
+  .back-button {
+    top: 8px;
+    left: 8px;
+  }
+
+  .btn-back {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .register-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .register-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .form-group input {
+    padding: 7px 10px;
+    font-size: 0.8rem;
+  }
+
+  .register-btn {
+    padding: 9px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 5px;
+  }
+
+  .register-card {
+    padding: 1rem;
+    max-width: 260px;
+  }
+
+  .back-button {
+    top: 5px;
+    left: 5px;
+  }
+
+  .btn-back {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .register-logo {
+    height: 30px;
+  }
+
+  .register-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .register-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.6rem;
+  }
+
+  .form-group label {
+    font-size: 0.75rem;
+  }
+
+  .form-group input {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+
+  .register-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .login-btn-link {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .register-card {
+    padding: 0.8rem;
+    max-width: 240px;
+  }
+
+  .register-card h2 {
+    font-size: 1rem;
+  }
+
+  .form-group input {
+    padding: 5px 6px;
+    font-size: 0.7rem;
+  }
+
+  .register-btn {
+    padding: 7px 10px;
+    font-size: 0.75rem;
+  }
+}

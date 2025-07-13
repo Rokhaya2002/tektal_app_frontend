@@ -1,0 +1,130 @@
+<header class="admin-header">
+  <div class="top-bar">
+    <div class="header-left">
+      <img src="assets/Logo-tektal.png" alt="Tektall Logo" class="logo-img" />
+      <h1 class="site-name bangers-title">Admin</h1>
+    </div>
+
+    <div class="nav-links">
+      <!-- Navigation pour admin connecté -->
+      <ng-container *ngIf="isAuthenticated; else notAuthenticated">
+        <a
+          class="nav-link"
+          [class.active]="isActiveRoute('dashboard')"
+          (click)="navigateTo('dashboard')"
+        >
+          🏠 Accueil
+        </a>
+        <a
+          class="nav-link"
+          [class.active]="isActiveRoute('lines')"
+          (click)="navigateTo('lines')"
+        >
+          🚌 Lignes
+        </a>
+        <a
+          class="nav-link"
+          [class.active]="isActiveRoute('stops')"
+          (click)="navigateTo('stops')"
+        >
+          📍 Arrêts
+        </a>
+        <a
+          class="nav-link"
+          [class.active]="isActiveRoute('users')"
+          (click)="navigateTo('users')"
+        >
+          👥 Utilisateurs
+        </a>
+
+        <div class="admin-info">
+          <span class="welcome-text">Bonjour, {{ adminName || "Admin" }}</span>
+          <button class="logout-btn" (click)="logout()">🚪 Déconnexion</button>
+        </div>
+      </ng-container>
+
+      <!-- Navigation pour admin non connecté -->
+      <ng-template #notAuthenticated>
+        <div class="admin-info">
+          <span class="welcome-text">Administration Tektall</span>
+          <a class="nav-link" routerLink="/admin/login"> 🔐 Connexion Admin </a>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Menu mobile -->
+    <button
+      class="mobile-menu-btn"
+      (click)="toggleMenu()"
+      aria-label="Menu mobile"
+    >
+      <span class="menu-icon">☰</span>
+    </button>
+  </div>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <ul class="mobile-nav-list">
+      <!-- Menu pour admin connecté -->
+      <ng-container *ngIf="isAuthenticated; else mobileNotAuthenticated">
+        <li class="mobile-nav-item">
+          <a
+            class="mobile-nav-link"
+            [class.active]="isActiveRoute('dashboard')"
+            (click)="navigateTo('dashboard')"
+          >
+            🏠 Accueil
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a
+            class="mobile-nav-link"
+            [class.active]="isActiveRoute('lines')"
+            (click)="navigateTo('lines')"
+          >
+            🚌 Lignes
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a
+            class="mobile-nav-link"
+            [class.active]="isActiveRoute('stops')"
+            (click)="navigateTo('stops')"
+          >
+            📍 Arrêts
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a
+            class="mobile-nav-link"
+            [class.active]="isActiveRoute('users')"
+            (click)="navigateTo('users')"
+          >
+            👥 Utilisateurs
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <div class="mobile-user-info">
+            <span class="mobile-welcome"
+              >Bonjour, {{ adminName || "Admin" }}</span
+            >
+          </div>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link logout-mobile" (click)="logout()">
+            🚪 Déconnexion
+          </a>
+        </li>
+      </ng-container>
+
+      <!-- Menu pour admin non connecté -->
+      <ng-template #mobileNotAuthenticated>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/admin/login">
+            🔐 Connexion Admin
+          </a>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</header>

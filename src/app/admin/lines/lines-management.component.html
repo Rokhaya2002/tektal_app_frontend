@@ -211,7 +211,7 @@
           </div>
 
           <div class="lines-list" *ngIf="!loading">
-            <div class="line-item" *ngFor="let line of lines">
+            <div class="line-item" *ngFor="let line of paginatedLines">
               <div class="line-info">
                 <h3>{{ line.name }}</h3>
                 <div class="line-route">
@@ -237,6 +237,30 @@
             <div class="empty-state" *ngIf="lines.length === 0">
               <p>Aucune ligne créée pour le moment</p>
               <p>Créez votre première ligne en utilisant le formulaire</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="lines-pagination" *ngIf="lines.length > pageSize">
+              <button
+                (click)="prevPage()"
+                [disabled]="page === 1"
+                class="pagination-btn"
+              >
+                ← Précédent
+              </button>
+              <div class="page-info">
+                <span>Page {{ page }} sur {{ totalPages }}</span>
+                <span class="total-info"
+                  >({{ lines.length }} lignes au total)</span
+                >
+              </div>
+              <button
+                (click)="nextPage()"
+                [disabled]="!hasMoreLines()"
+                class="pagination-btn"
+              >
+                Suivant →
+              </button>
             </div>
           </div>
         </div>

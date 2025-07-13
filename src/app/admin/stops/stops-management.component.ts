@@ -33,6 +33,9 @@ export class StopsManagementComponent implements OnInit {
   selectedStop: Stop | null = null;
   isCreatingNew = false;
 
+  // Exposer Math pour l'utiliser dans le template
+  Math = Math;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
