@@ -24,6 +24,8 @@ export class UsersManagementComponent implements OnInit {
   showCreateForm = false;
   showEditForm = false;
   selectedUser: User | null = null;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   // Formulaire de création/édition
   formData = {
@@ -114,28 +116,34 @@ export class UsersManagementComponent implements OnInit {
       !this.formData.email ||
       !this.formData.password
     ) {
-      alert('Veuillez remplir tous les champs obligatoires');
+      this.errorMessage = 'Veuillez remplir tous les champs obligatoires';
+      this.clearMessages();
       return;
     }
 
     this.userService.createUser(this.formData).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.successMessage =
+          response.message || 'Utilisateur créé avec succès !';
         this.showCreateForm = false;
         this.resetForm();
         this.loadUsers();
         this.loadUserStats();
+        this.clearMessages();
       },
       error: (error) => {
         console.error('Erreur lors de la création:', error);
-        alert("Erreur lors de la création de l'utilisateur");
+        this.errorMessage =
+          error.error?.message || "Erreur lors de la création de l'utilisateur";
+        this.clearMessages();
       },
     });
   }
 
   updateUser(): void {
     if (!this.selectedUser || !this.formData.name || !this.formData.email) {
-      alert('Veuillez remplir tous les champs obligatoires');
+      this.errorMessage = 'Veuillez remplir tous les champs obligatoires';
+      this.clearMessages();
       return;
     }
 
@@ -151,15 +159,20 @@ export class UsersManagementComponent implements OnInit {
 
     this.userService.updateUser(this.selectedUser.id, updateData).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.successMessage =
+          response.message || 'Utilisateur mis à jour avec succès !';
         this.showEditForm = false;
         this.resetForm();
         this.loadUsers();
         this.loadUserStats();
+        this.clearMessages();
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour:', error);
-        alert("Erreur lors de la mise à jour de l'utilisateur");
+        this.errorMessage =
+          error.error?.message ||
+          "Erreur lors de la mise à jour de l'utilisateur";
+        this.clearMessages();
       },
     });
   }
@@ -172,13 +185,18 @@ export class UsersManagementComponent implements OnInit {
     ) {
       this.userService.deleteUser(user.id).subscribe({
         next: (response) => {
-          alert(response.message);
+          this.successMessage =
+            response.message || 'Utilisateur supprimé avec succès !';
           this.loadUsers();
           this.loadUserStats();
+          this.clearMessages();
         },
         error: (error) => {
           console.error('Erreur lors de la suppression:', error);
-          alert("Erreur lors de la suppression de l'utilisateur");
+          this.errorMessage =
+            error.error?.message ||
+            "Erreur lors de la suppression de l'utilisateur";
+          this.clearMessages();
         },
       });
     }
@@ -187,13 +205,17 @@ export class UsersManagementComponent implements OnInit {
   toggleUserStatus(user: User): void {
     this.userService.toggleUserStatus(user.id).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.successMessage =
+          response.message || "Statut de l'utilisateur modifié avec succès !";
         this.loadUsers();
         this.loadUserStats();
+        this.clearMessages();
       },
       error: (error) => {
         console.error('Erreur lors du changement de statut:', error);
-        alert('Erreur lors du changement de statut');
+        this.errorMessage =
+          error.error?.message || 'Erreur lors du changement de statut';
+        this.clearMessages();
       },
     });
   }
@@ -202,6 +224,14 @@ export class UsersManagementComponent implements OnInit {
     this.showCreateForm = false;
     this.showEditForm = false;
     this.resetForm();
+    this.clearMessages();
+  }
+
+  private clearMessages(): void {
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage = '';
+    }, 5000);
   }
 
   private resetForm(): void {

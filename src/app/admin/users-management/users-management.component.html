@@ -9,6 +9,17 @@
     </button>
   </div>
 
+  <!-- Messages de succès et d'erreur -->
+  <div *ngIf="successMessage" class="success-message">
+    <i class="fas fa-check-circle"></i>
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMessage }}
+  </div>
+
   <!-- Statistiques des utilisateurs -->
   <div *ngIf="userStats" class="stats-section">
     <div class="stats-grid">
