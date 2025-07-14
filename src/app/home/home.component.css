@@ -57,7 +57,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  color: white;
   animation: slideDown 1s ease forwards;
 
   /* Fond semi-transparent et flouté */
@@ -114,6 +114,7 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
+  color:white;
 }
 
 .welcome-text {
