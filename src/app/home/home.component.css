@@ -32,7 +32,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("/assets/kya.png") no-repeat center center;
+  background: url("/assets/aby.jpg") no-repeat center center;
   background-size: cover;
   filter: blur(5px); /* flou sur le fond */
   z-index: -1;
@@ -57,14 +57,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: white;
   animation: slideDown 1s ease forwards;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+
+  /* Fond semi-transparent et flouté */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
   border-radius: 25px;
   padding: 12px 20px;
-  border: 2px solid rgba(9, 63, 180, 0.2);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);   /* bord blanc discret */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Conteneur pour le logo et le nom */
 .header-left {
@@ -107,28 +114,29 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
+  color:white;
 }
 
 .welcome-text {
-  color: var(--primary-color);
+  color: var( --text-white);
   font-weight: 600;
   font-size: 14px;
-  background: rgba(9, 63, 180, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   padding: 8px 16px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(9, 63, 180, 0.2);
+  border: 1px solid rgba(247, 250, 255, 0.2);
 }
 
 .nav-link {
-  color: var(--primary-color);
+  color: var( --text-white);
   text-decoration: none;
   font-weight: 600;
   padding: 8px 16px;
   border-radius: 20px;
-  background: rgba(9, 63, 180, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(9, 63, 180, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   font-size: 14px;
 }
@@ -177,6 +185,7 @@ body {
 /* Titre principal avec transition douce */
 .headline {
   font-size: 32px;
+  color: white;
   font-weight: 700;
   margin-bottom: 10px;
   transition: all 0.4s ease;
