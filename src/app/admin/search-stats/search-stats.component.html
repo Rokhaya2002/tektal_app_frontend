@@ -46,7 +46,7 @@
     <div class="top-block">
       <div class="top-title">Top destinations</div>
       <ul>
-        <li *ngFor="let dest of stats?.top_destinations || []">
+        <li *ngFor="let dest of (stats?.top_destinations || []).slice(0, 5)">
           <span class="top-name">{{ dest.destination }}</span>
           <span class="top-count">{{ dest.total_searches }}</span>
         </li>
@@ -58,7 +58,7 @@
     <div class="top-block">
       <div class="top-title">Top départs</div>
       <ul>
-        <li *ngFor="let dep of stats?.top_departures || []">
+        <li *ngFor="let dep of (stats?.top_departures || []).slice(0, 5)">
           <span class="top-name">{{ dep.departure }}</span>
           <span class="top-count">{{ dep.total_searches }}</span>
         </li>
@@ -72,7 +72,7 @@
   <div class="stats-recent">
     <div class="recent-title">Recherches récentes</div>
     <ul>
-      <li *ngFor="let search of (stats?.recent_searches || []).slice(0, 10)">
+      <li *ngFor="let search of (stats?.recent_searches || []).slice(0, 5)">
         <span class="recent-route">{{ search.from }} → {{ search.to }}</span>
         <span class="recent-count">{{ search.count }} fois</span>
         <span class="recent-date">{{

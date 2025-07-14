@@ -60,6 +60,18 @@ export class SearchStatsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.apiService.getSearchStats().subscribe({
       next: (response) => {
+        // Limiter les tops et recherches récentes à 5 éléments
+        if (response.stats) {
+          response.stats.top_destinations = (
+            response.stats.top_destinations || []
+          ).slice(0, 5);
+          response.stats.top_departures = (
+            response.stats.top_departures || []
+          ).slice(0, 5);
+          response.stats.recent_searches = (
+            response.stats.recent_searches || []
+          ).slice(0, 5);
+        }
         this.stats = response.stats;
         this.loading = false;
       },
