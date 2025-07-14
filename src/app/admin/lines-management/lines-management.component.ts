@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminApiService } from '../services/admin-api.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lines-management',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './lines-management.component.html',
   styleUrls: ['./lines-management.component.css'],
 })
