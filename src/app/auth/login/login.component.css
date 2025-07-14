@@ -12,8 +12,6 @@
   padding: 10px;
   position: relative;
 }
-
-/* Effet de fond animé */
 .login-container::before {
   content: "";
   position: absolute;
@@ -21,11 +19,38 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("/assets/kya.png") no-repeat center center;
-  background-size: cover;
-  opacity: 0.1;
-  z-index: -1;
+
+  background: rgba(255, 255, 255, 0.05); /* voile blanc très léger */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  z-index: 1;
 }
+
+/* Effet de fond animé */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Image en fond directement */
+  background: url("/assets/tektalll.jpg") no-repeat center center;
+  background-size: cover;
+
+  /* Optionnel : flouter le contenu avec ::before */
+  position: relative;
+  padding: 10px;
+}
+.login-card {
+  position: relative;
+  z-index: 2;
+}
+.back-button {
+  position: relative;
+  z-index: 2;
+}
+
 
 /* Bouton retour */
 .back-button {

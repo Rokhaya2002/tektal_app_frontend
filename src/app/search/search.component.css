@@ -779,3 +779,67 @@ h1 {
     padding: 10px;
   }
 }
+/* 🌄 Ajout du fond flouté global pour la page de recherche */
+.search-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.search-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/assets/trajet.jpg") no-repeat center center;
+  background-size: cover;
+  filter: blur(8px);
+  transform: scale(1.05); /* évite les bords nets après flou */
+  z-index: 0;
+}
+
+/* ✅ Tous les blocs visibles passent au-dessus */
+.search-container,
+.back-wrapper,
+.history-section,
+.results,
+.tips-section {
+  position: relative;
+  z-index: 2;
+}
+/* 🌄 Fond flouté pour la page des lignes */
+.lines-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.lines-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: url("/assets/kya.png") no-repeat center center;
+  background-size: cover;
+  filter: blur(8px);
+  transform: scale(1.05); /* évite les bords nets après flou */
+  z-index: 0;
+}
+
+/* ✅ Tous les blocs visibles doivent passer au-dessus */
+.lines-container,
+.back-button,
+.filter-buttons,
+.stats-info,
+.line-item,
+.no-line {
+  position: relative;
+  z-index: 2;
+}
