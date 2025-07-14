@@ -68,10 +68,9 @@ body {
   border-radius: 25px;
   padding: 12px 20px;
 
-  border: 1px solid rgba(255, 255, 255, 0.2);   /* bord blanc discret */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* bord blanc discret */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
-
 
 /* Conteneur pour le logo et le nom */
 .header-left {
@@ -114,11 +113,11 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
-  color:white;
+  color: white;
 }
 
 .welcome-text {
-  color: var( --text-white);
+  color: var(--text-white);
   font-weight: 600;
   font-size: 14px;
   background: rgba(255, 255, 255, 0.1);
@@ -129,7 +128,7 @@ body {
 }
 
 .nav-link {
-  color: var( --text-white);
+  color: var(--text-white);
   text-decoration: none;
   font-weight: 600;
   padding: 8px 16px;
